@@ -1,0 +1,30 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Email
+{
+    public Email(string[] fields, string[] emailData) => CreateEmail(fields, emailData);
+
+    Dictionary<string, string> data = new Dictionary<string, string>();
+
+    public void CreateEmail(string[] fields, string[] emailData)
+    {
+        for (int i = 0; i < fields.Length; i++)
+        {
+            if (fields[i] == null) fields[i] = "";
+            if (emailData[i] == null) emailData[i] = "";
+            data.Add(fields[i], emailData[i]);
+        }
+    }
+
+    public string GetFieldData(string field)
+    {
+        string output = "ERROR";
+        data.TryGetValue(field, out output);
+        return output;
+    }
+
+    public string Get(string field) => GetFieldData(field);
+}
