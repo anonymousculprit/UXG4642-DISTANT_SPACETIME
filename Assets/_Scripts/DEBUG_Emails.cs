@@ -2,21 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TEST_EmailLoader : MonoBehaviour
+public class DEBUG_Emails : MonoBehaviour
 {
     public string[] emailFields = new string[] { "ID", "Subject", "Author", "Date", "Body" };
+    public string emailPath = "";
+    EmailDataManager emailDataManager = new();
 
-    EmailDataRetriever emailReader = new();
-    public List<Email> emails;
-
-    public void Awake()
+    private void Awake()
     {
-        emails = emailReader.GetEmails(Application.dataPath + "/Data", emailFields);
+        emailDataManager.Init();
     }
 
     public void Start()
     {
-        foreach (Email email in emails)
+        foreach (Email email in emailDataManager.GetAllEmails())
         {
             string headers = "";
             string body = "";
@@ -25,7 +24,7 @@ public class TEST_EmailLoader : MonoBehaviour
                 if (field == "Body") body = email.Get("Body");
                 else
                 {
-                    if (headers != "") headers += " | "; 
+                    if (headers != "") headers += " | ";
                     headers += email.Get(field);
                 }
             }

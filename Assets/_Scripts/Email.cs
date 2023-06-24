@@ -8,6 +8,7 @@ public class Email
     public Email(string[] fields, string[] emailData) => CreateEmail(fields, emailData);
 
     Dictionary<string, string> data = new Dictionary<string, string>();
+    bool markAsRead = false;
 
     public void CreateEmail(string[] fields, string[] emailData)
     {
@@ -27,4 +28,6 @@ public class Email
     }
 
     public string Get(string field) => GetFieldData(field);
+    public void MarkAsRead() => markAsRead = true;
+    public bool HasBeenRead() => markAsRead;
 }

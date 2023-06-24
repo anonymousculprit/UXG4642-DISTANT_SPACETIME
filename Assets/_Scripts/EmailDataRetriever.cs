@@ -6,12 +6,8 @@ using System.Text;
 
 public class EmailDataRetriever 
 {
-    string[] defaultFields = new string[] { "ID", "Subject", "Author", "Date", "Body" };
-
-    public List<Email> GetEmails(string path, string[] fieldsOverride = null)
+    public List<Email> GetEmails(string path, string[] fields)
     {
-        string[] fields = GetFields();
-
         int body = 0;
         string[] filterFields = MakeFilterFields(fields, out body);
 
@@ -41,7 +37,19 @@ public class EmailDataRetriever
 
         return emails;
 
-        string[] GetFields() => fieldsOverride != null ? fieldsOverride : defaultFields;
+        string[] MakeFilterFields(string[] fields, out int body)
+        {
+            string[] fieldsCopy = (string[])fields.Clone();
+            int bodyIndex = fields.Length;
+            for (int i = 0; i < fields.Length; i++)
+            {
+                if (!fields[i].Contains(':')) fieldsCopy[i] += ':';
+                if (fields[i].Contains("Body")) bodyIndex = i;
+            }
+
+            body = bodyIndex;
+            return fieldsCopy;
+        }
         bool RetrievedFieldInfo(string line, ref string[] emailInfo)
         {
             for (int i = 0; i < filterFields.Length; i++)
@@ -60,19 +68,6 @@ public class EmailDataRetriever
 
             emailInfo[body] += line;
         }
-    }
 
-    public string[] MakeFilterFields(string[] fields, out int body)
-    {
-        string[] fieldsCopy = (string[])fields.Clone();
-        int bodyIndex = fields.Length;
-        for (int i = 0; i < fields.Length; i++)
-        {
-            if (!fields[i].Contains(':')) fieldsCopy[i] += ':';
-            if (fields[i].Contains("Body")) bodyIndex = i;
-        }
-
-        body = bodyIndex;
-        return fieldsCopy;
     }
 }
