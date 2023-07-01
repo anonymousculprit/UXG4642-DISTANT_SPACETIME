@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Text;
 
-public class EmailDataRetriever 
+public class TXTDataRetriever 
 {
     public List<Email> GetEmails(string path, string[] fields)
     {

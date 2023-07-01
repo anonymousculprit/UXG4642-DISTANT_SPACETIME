@@ -11,17 +11,19 @@ public class CSVDataRetriever
     public void SetPath(string path) => csvReader.config.SetPath(path);
     public void CreateDBObjCollection(string[] dbObjs)
     {
-        foreach(string s in dbObjs)
+        CSVDataCleaner cleaner = new();
+        foreach (string s in dbObjs)
         {
             IEnumerable<string[]> db = RetrieveDataFromDB(s);
             if (db == null) { Debug.LogError(s + "DB is missing from Data!"); continue; }
             switch (s)
             {
-                case "Matrix":
-                    foreach (string[] data in db) DB.enhancements.Add(new DBObj_Enhancement(data, csvReader.config.delimiter));
+                case "Day":
+                    foreach (string[] data in db) cleaner.SortAndCleanDayEmailInput(data);
+                    cleaner.SubmitDayEmailInputToMatrix();
                     break;
-                case "Responses":
-                    foreach (string[] data in db) DB.skills.Add(new DBObj_Skill(data, csvReader.config.delimiter));
+                case "Response":
+                    foreach (string[] data in db) cleaner.CleanEmailResponseInput(data);
                     break;
                 default: Debug.LogError(s + "DB is not registered in CSVDataRetriever!"); break;
             }
@@ -34,14 +36,16 @@ public class CSVDataRetriever
         List<string[]> result = new();
         foreach (string currentFile in txtFiles)
         {
-            if (!currentFile.Contains(dbObj.ToLower())) continue;
+            if (!currentFile.ToLower().Contains(dbObj.ToLower())) continue;
 
             string currFilePath = currentFile;
             var fileStream = new FileStream(currFilePath, FileMode.Open, FileAccess.Read);
 
             using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))
             {
+                string instructions = streamReader.ReadLine();
                 string header = streamReader.ReadLine();
+                string sample = streamReader.ReadLine();
                 string line;
                 while ((line = streamReader.ReadLine()) != null) result.Add(csvReader.Read(line));
             }

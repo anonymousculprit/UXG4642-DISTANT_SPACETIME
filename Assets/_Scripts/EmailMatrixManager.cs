@@ -1,10 +1,21 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
-public static class EmailMatrixManager
+public class EmailMatrixManager
 {
-    public static Dictionary<int, string[]> DayToEmailRegistry = new();
+    string[] defaultFields = new string[] { "Day", "Response" };
 
-    public static void RegisterDayEmailMatrix(int day, string[] emailID) => DayToEmailRegistry.Add(day, emailID);
+    CSVDataRetriever matrixReader = new();
+
+    public void Init(string dataPath = null, string[] emailFields = null)
+    {
+        string[] fields = emailFields != null ? emailFields : defaultFields;
+        string path = dataPath != null ? dataPath : Application.dataPath + "/Data/Matrix";
+        matrixReader.SetPath(path);
+        matrixReader.CreateDBObjCollection(fields);
+    }
 }

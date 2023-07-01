@@ -6,7 +6,7 @@ public class EmailDataManager
 {
     string[] defaultFields = new string[] { "ID", "Subject", "Author", "Date", "Body" };
 
-    EmailDataRetriever emailReader = new();
+    TXTDataRetriever emailReader = new();
     List<Email> emails;
 
     public void Init(string dataPath = null, string[] emailFields = null)
