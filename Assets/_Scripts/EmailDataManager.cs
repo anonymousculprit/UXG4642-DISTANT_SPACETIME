@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class EmailDataManager 
 {
-    string[] defaultFields = new string[] { "ID", "Subject", "Author", "Date", "Body" };
-
     TXTDataRetriever emailReader = new();
     List<Email> emails;
 
     public void Init(string dataPath = null, string[] emailFields = null)
     {
-        string[] fields = emailFields != null ? emailFields : defaultFields;
+        string[] fields = emailFields != null ? emailFields : EmailFields.DefaultEmailFields;
         string path = dataPath != null ? dataPath : Application.dataPath + "/Data";
         emails = emailReader.GetEmails(path, fields);
     }
@@ -19,5 +17,4 @@ public class EmailDataManager
     public List<Email> GetAllEmails() => emails;
     public Email GetEmailByID(string id) => emails.Find(x => x.Get("ID") == id);
     public List<Email> GetEmailsByField(string field, string value) => emails.FindAll(x => x.Get(field) == value);
-    public string[] GetDefaultFields() => defaultFields;
 }
