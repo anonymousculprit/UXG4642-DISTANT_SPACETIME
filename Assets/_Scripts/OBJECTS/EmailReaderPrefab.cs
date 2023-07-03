@@ -18,6 +18,7 @@ public class EmailReaderPrefab : MonoBehaviour
     {
         playerTemplateGO = playerTemplateText.gameObject;
         playerTypingGO = playerTypingText.gameObject;
+        ClearReader();
     }
 
     public void TurnOffPrefab() => prefab.SetActive(false);

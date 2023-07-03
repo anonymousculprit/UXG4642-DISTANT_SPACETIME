@@ -19,7 +19,7 @@ public class EmailPrefab : MonoBehaviour
     public TextMeshProUGUI subject;
     public TextMeshProUGUI author;
     public GameObject iconGO;
-    public Image emailPanelImg, iconImg;
+    public Image emailPanelImg, iconImg, outlineImg;
     public Sprite replyIcon, unreadIcon;
     public ColorSet unread, selected, read;
 
@@ -45,10 +45,11 @@ public class EmailPrefab : MonoBehaviour
 
     public void OnClick()
     {
-        selectedEmail.SetDeselected();
+        if (selectedEmail != null)
+            selectedEmail.SetDeselected();
         selectedEmail = this;
-        EmailDisplay.instance.LoadReaderContents(emailID);
         SetSelected();
+        EmailDisplay.instance.LoadReaderContents(emailID);
     }
 
     public void SetSelected()
@@ -81,11 +82,12 @@ public class EmailPrefab : MonoBehaviour
         author.color = set.authorColor;
         emailPanelImg.color = set.panelColor;
         iconImg.color = set.iconColor;
+        outlineImg.color = set.outlineColor;
     }
 }
 
 [Serializable]
 public struct ColorSet
 {
-    public Color panelColor, iconColor, subjectColor, authorColor;
+    public Color panelColor, iconColor, subjectColor, authorColor, outlineColor;
 }

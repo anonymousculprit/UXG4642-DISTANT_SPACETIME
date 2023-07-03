@@ -63,7 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -511,7 +511,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -532,7 +532,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1408887321945459912}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -567,6 +567,7 @@ MonoBehaviour:
   iconGO: {fileID: 1408887323330482900}
   emailPanelImg: {fileID: 1408887321945459912}
   iconImg: {fileID: 1408887323330482922}
+  outlineImg: {fileID: 1408887323719352217}
   replyIcon: {fileID: 21300000, guid: c4455dcf29cedd8478679a8a2f7e49a6, type: 3}
   unreadIcon: {fileID: 21300000, guid: 7d973dbe06c660c488e8e3cb4499d651, type: 3}
   unread:
@@ -574,16 +575,19 @@ MonoBehaviour:
     iconColor: {r: 1, g: 1, b: 1, a: 1}
     subjectColor: {r: 0.9647059, g: 0.69803923, b: 0.41960785, a: 1}
     authorColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
+    outlineColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
   selected:
     panelColor: {r: 0.9647059, g: 0.69803923, b: 0.41960785, a: 1}
     iconColor: {r: 0.9647059, g: 0.69803923, b: 0.41960785, a: 1}
     subjectColor: {r: 0, g: 0, b: 0, a: 1}
     authorColor: {r: 1, g: 1, b: 1, a: 1}
+    outlineColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.47843137}
   read:
     panelColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.05882353}
     iconColor: {r: 1, g: 1, b: 1, a: 0}
     subjectColor: {r: 0.9647059, g: 0.69803923, b: 0.41960785, a: 0.19607843}
     authorColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.19607843}
+    outlineColor: {r: 0.6, g: 0.6, b: 0.6, a: 0.47843137}
 --- !u!1 &1408887323719352219
 GameObject:
   m_ObjectHideFlags: 0
