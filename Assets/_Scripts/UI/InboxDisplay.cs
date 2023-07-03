@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InboxLoader : MonoBehaviour
+public class InboxDisplay : MonoBehaviour
 {
     public GameObject emailPrefab, emailContainer;
 
@@ -21,6 +21,8 @@ public class InboxLoader : MonoBehaviour
         List<Email> emails = EmailGrabber.instance.GetInbox();
         foreach(Email email in emails)
         {
+            if (email == null) continue;
+
             GameObject newEmailGO = Instantiate(emailPrefab);
             newEmailGO.transform.SetParent(emailContainer.transform);
 

@@ -11,7 +11,14 @@ public class EmailReaderPrefab : MonoBehaviour
     public GameObject prefab;
     public TextMeshProUGUI subjectLine;
     public TextMeshProUGUI authorLine, dateLine, bodyText, playerTemplateText, playerTypingText;
-    public GameObject replyButton, submitButton, playerTypingGO, playerTemplateGO;
+    public GameObject replyButton, submitButton;
+    private GameObject playerTypingGO, playerTemplateGO;
+
+    public void Start()
+    {
+        playerTemplateGO = playerTemplateText.gameObject;
+        playerTypingGO = playerTypingText.gameObject;
+    }
 
     public void TurnOffPrefab() => prefab.SetActive(false);
     public void TurnOnPrefab() { prefab.SetActive(true); ClearReader(); }

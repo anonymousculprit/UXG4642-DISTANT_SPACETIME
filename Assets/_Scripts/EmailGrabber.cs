@@ -15,7 +15,7 @@ public class EmailGrabber : MonoBehaviour
 
     private void Awake()
     {
-        if (instance = null)
+        if (instance == null)
             instance = this;
     }
 
@@ -43,38 +43,46 @@ public class EmailGrabber : MonoBehaviour
     {
         List<Email> emailRemovalList = new();
 
-        foreach (Email email in inbox)
-        {
-            string emailID = email.GetFieldData(EmailFields.ID);
-
-            if (EmailMatrix.EmailIDHasPlayerReply(emailID))
+        if (inbox.Count > 0)
+            foreach (Email email in inbox)
             {
-                if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
+                if (email == null) continue;
+                string emailID = email.GetFieldData(EmailFields.ID);
+
+                if (EmailMatrix.EmailIDHasPlayerReply(emailID))
                 {
-                    Email playerReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
-                    Email npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
+                    if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
+                    {
+                        Email playerReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
+                        Email npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
 
-                    StringBuilder sb = new();
-                    sb.Append(npcReply.GetFieldData(EmailFields.Body));
-                    sb.Append("\n" + divider + "\n");
-                    sb.Append(playerReply.GetFieldData(EmailFields.Body));
-                    sb.Append("\n" + divider + "\n");
-                    sb.Append(email.GetFieldData(EmailFields.Body));
+                        StringBuilder sb = new();
+                        sb.Append(npcReply.GetFieldData(EmailFields.Body));
+                        sb.Append("\n" + divider + "\n");
+                        sb.Append(playerReply.GetFieldData(EmailFields.Body));
+                        sb.Append("\n" + divider + "\n");
+                        sb.Append(email.GetFieldData(EmailFields.Body));
 
-                    emailRemovalList.Add(playerReply);
-                    emailRemovalList.Add(email);
-                    continue;
+                        emailRemovalList.Add(playerReply);
+                        emailRemovalList.Add(email);
+                        continue;
+                    }
+
+                    emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID)));
+                    emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID)));
                 }
-
-                emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID)));
-                emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID)));
             }
-        }
 
-        foreach(Email email in emailRemovalList)
-            inbox.Remove(email);
+        if (emailRemovalList.Count > 0)
+            foreach(Email email in emailRemovalList)
+                inbox.Remove(email);
     }
 
-    public int GetUnreadEmailsCount() => inbox.FindAll(x => !x.HasBeenRead()).Count;
+    public int GetUnreadEmailsCount()
+    {
+        List<Email> unreadEmails = inbox.FindAll(x => x != null && !x.HasBeenRead());
+        if (unreadEmails == null || unreadEmails.Count == 0) return 0;
+        return unreadEmails.Count;
+    }
     public List<Email> GetInbox() => inbox;
 }

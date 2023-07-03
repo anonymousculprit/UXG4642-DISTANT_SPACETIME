@@ -16,14 +16,9 @@ public class GameManager : MonoBehaviour
 
     int day = 1;
 
-    private void OnEnable()
-    {
-        // init email manager (aka get all emails of current day)
-        // init every other manager (distance manager, email counter, etc.)
-    }
-
     private void Start()
     {
+        EmailGrabber.instance.Init(day);
         InitComplete?.Invoke();
         StartDay();
     }

@@ -22,9 +22,10 @@ public class Email
 
     public string GetFieldData(string field)
     {
-        string output = "ERROR";
+        string output;
         data.TryGetValue(field, out output);
-        return output;
+        if (string.IsNullOrEmpty(output)) output = "ERROR";
+         return output;
     }
 
     public string Get(string field) => GetFieldData(field);

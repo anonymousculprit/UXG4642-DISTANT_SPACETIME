@@ -11,20 +11,34 @@ public class EmailPrefab : MonoBehaviour
 {
     public static EmailPrefab selectedEmail;
 
+    [Header("Text Formatting")]
+    public int subjectLineMaxCharacters = 30;
+    public int authorLineMaxCharacters = 35;
+    
+    [Header("Obj References")]
     public TextMeshProUGUI subject;
     public TextMeshProUGUI author;
-    public GameObject replyIndicator;
-    public Image emailPanelImg, replyIndicatorImg;
+    public GameObject iconGO;
+    public Image emailPanelImg, iconImg;
+    public Sprite replyIcon, unreadIcon;
     public ColorSet unread, selected, read;
 
     public string emailID { get; private set; }
+    bool hasReply = false;
 
     public void Init(string id, string subject, string author, bool reply = false)
     {
         emailID = id;
         this.subject.text = subject;
         this.author.text = author;
-        replyIndicator.SetActive(reply);
+        hasReply = reply;
+        iconGO.SetActive(true);
+        iconImg.sprite = unreadIcon;
+
+        if (subject.Length > subjectLineMaxCharacters)
+            this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
+        if (author.Length > authorLineMaxCharacters)
+            this.author.text = subject.Substring(0, authorLineMaxCharacters) + "...";
 
         ChangeColor(GameManager.instance.emailDataManager.GetEmailByID(emailID).HasBeenRead() ? read : unread);
     }
@@ -42,8 +56,13 @@ public class EmailPrefab : MonoBehaviour
         EmailDisplay.instance.UnselectingEmail += SetDeselected;
         ChangeColor(selected);
 
+        if (hasReply)
+            iconImg.sprite = replyIcon;
+        else
+            iconGO.SetActive(false);
+
         if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
-            replyIndicatorImg.color = read.replyColor;
+            iconImg.color = read.iconColor;
     }
 
     public void SetDeselected()
@@ -51,8 +70,9 @@ public class EmailPrefab : MonoBehaviour
         EmailDisplay.instance.UnselectingEmail -= SetDeselected;
         ChangeColor(read);
 
-        if (!EmailMatrix.PlayerHasRepliedToEmailID(emailID))
-            replyIndicatorImg.color = unread.replyColor;
+        if (iconGO.activeInHierarchy)
+            if (!EmailMatrix.PlayerHasRepliedToEmailID(emailID))
+                iconImg.color = unread.iconColor;
     }
 
     public void ChangeColor(ColorSet set)
@@ -60,12 +80,12 @@ public class EmailPrefab : MonoBehaviour
         subject.color = set.subjectColor;
         author.color = set.authorColor;
         emailPanelImg.color = set.panelColor;
-        replyIndicatorImg.color = set.replyColor;
+        iconImg.color = set.iconColor;
     }
 }
 
 [Serializable]
 public struct ColorSet
 {
-    public Color panelColor, replyColor, subjectColor, authorColor;
+    public Color panelColor, iconColor, subjectColor, authorColor;
 }

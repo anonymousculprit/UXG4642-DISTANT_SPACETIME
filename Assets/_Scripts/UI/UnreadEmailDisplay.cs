@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnreadEmailDisplay : MonoBehaviour
 {
     public TextMeshProUGUI text;
-    public GameObject blip;
+    //public GameObject blip;
     int counter = 0;
 
     public void OnEnable()
@@ -30,21 +30,28 @@ public class UnreadEmailDisplay : MonoBehaviour
     public void SetCounter(int i)
     {
         counter = i;
-        if (counter == 0)
-            TurnOffBlip();
-        else
-            TurnOnBlip();
+
+        UpdateCounter();
+        if (counter == 0) UpdateCounterEmpty();
+        
+        //if (counter == 0)
+        //    TurnOffBlip();
+        //else
+        //    TurnOnBlip();
     }
 
     public void DecreaseCounter()
     {
         counter--;
-        if (counter == 0) TurnOffBlip();
-        else UpdateCounter();
+        //if (counter == 0) TurnOffBlip();
+        //else UpdateCounter();
+        UpdateCounter();
+        if (counter == 0) UpdateCounterEmpty();
     }
 
     public bool AllMessagesRead() => counter == 0;
-    public void UpdateCounter() => text.text = counter.ToString();
-    public void TurnOnBlip() => blip.SetActive(true);
-    public void TurnOffBlip() => blip.SetActive(false);
+    public void UpdateCounter() => text.text = "Inbox (" + counter.ToString() + ")";
+    public void UpdateCounterEmpty() => text.text = "Inbox";
+    //public void TurnOnBlip() => blip.SetActive(true);
+    //public void TurnOffBlip() => blip.SetActive(false);
 }
