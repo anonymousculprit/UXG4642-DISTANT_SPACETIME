@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     public EmailDataManager emailDataManager = new();
     public EmailMatrixManager emailMatrixManager = new();
 
+    public string emailDataFolder, emailMatrixFolder;
     int day = 1;
 
     private void Start()
@@ -38,8 +39,9 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            emailDataManager.Init();
-            emailMatrixManager.Init();
+
+            if (!string.IsNullOrEmpty(emailDataFolder)) emailDataManager.Init(dataFolder: emailDataFolder); else emailDataManager.Init();
+            if (!string.IsNullOrEmpty(emailMatrixFolder)) emailMatrixManager.Init(dataFolder: emailDataFolder); else emailMatrixManager.Init();
         }
         else
         {

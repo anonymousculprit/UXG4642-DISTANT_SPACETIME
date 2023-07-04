@@ -18,9 +18,9 @@ public class EmailPrefab : MonoBehaviour
     [Header("Obj References")]
     public TextMeshProUGUI subject;
     public TextMeshProUGUI author;
-    public GameObject iconGO;
+    public GameObject replyIconGO, unreadIconGO;
     public Image emailPanelImg, iconImg, outlineImg;
-    public Sprite replyIcon, unreadIcon;
+    public Sprite replyIcon;
     public ColorSet unread, selected, read;
 
     public string emailID { get; private set; }
@@ -32,8 +32,8 @@ public class EmailPrefab : MonoBehaviour
         this.subject.text = subject;
         this.author.text = author;
         hasReply = reply;
-        iconGO.SetActive(true);
-        iconImg.sprite = unreadIcon;
+        replyIconGO.SetActive(false);
+        unreadIconGO.SetActive(true);
 
         if (subject.Length > subjectLineMaxCharacters)
             this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
@@ -54,26 +54,32 @@ public class EmailPrefab : MonoBehaviour
 
     public void SetSelected()
     {
-        EmailDisplay.instance.UnselectingEmail += SetDeselected;
+        EmailDisplay.instance.UnselectingEmail += SetDeselectedByEmailDisplay;
         ChangeColor(selected);
+
+        unreadIconGO.SetActive(false);
+        replyIconGO.SetActive(true);
 
         if (hasReply)
             iconImg.sprite = replyIcon;
         else
-            iconGO.SetActive(false);
-
-        if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
-            iconImg.color = read.iconColor;
+            replyIconGO.SetActive(false);
     }
 
     public void SetDeselected()
     {
-        EmailDisplay.instance.UnselectingEmail -= SetDeselected;
+        EmailDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
         ChangeColor(read);
 
-        if (iconGO.activeInHierarchy)
+        if (replyIconGO.activeInHierarchy)
             if (!EmailMatrix.PlayerHasRepliedToEmailID(emailID))
                 iconImg.color = unread.iconColor;
+    }
+
+    public void SetDeselectedByEmailDisplay()
+    {
+        EmailDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
+        ChangeColor(read);
     }
 
     public void ChangeColor(ColorSet set)

@@ -26,8 +26,8 @@ public class EmailReaderPrefab : MonoBehaviour
     public void PopulateReader(string subject, string author, string date, string body, bool reply)
     {
         subjectLine.text = subject;
-        authorLine.text = author;
-        dateLine.text = date;
+        authorLine.text = "From: " + author;
+        dateLine.text = "Date: " + date;
         bodyText.text = body;
         replyButton.SetActive(reply);
     }
@@ -46,9 +46,14 @@ public class EmailReaderPrefab : MonoBehaviour
     }
     public void WriteReply()
     {
+        Debug.Log("Test#0");
         ClearReader();
 
+        Debug.Log("Test#1");
+
         Email emailData = GameManager.instance.emailDataManager.GetEmailByID(EmailDisplay.instance.playerReplyID);
+
+        Debug.Log("Test#2");
 
         subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
         authorLine.text = emailData.GetFieldData(EmailFields.Author);

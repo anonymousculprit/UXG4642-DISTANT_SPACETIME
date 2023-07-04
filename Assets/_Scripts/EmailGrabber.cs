@@ -33,9 +33,7 @@ public class EmailGrabber : MonoBehaviour
     {
         string[] emails = EmailMatrix.GetEmailsByDay(day);
         foreach (string emailID in emails)
-        {
             inbox.Add(GameManager.instance.emailDataManager.GetEmailByID(emailID));
-        }
         SortEmailsInInbox();
     }
 

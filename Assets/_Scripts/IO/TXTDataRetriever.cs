@@ -64,7 +64,7 @@ public class TXTDataRetriever
         void AddTextToBody(string line, ref string[] emailInfo)
         {
             if (emailInfo[body] != null)
-                emailInfo[body] += "\n";
+                emailInfo[body] += "\n\n";
 
             emailInfo[body] += line;
         }

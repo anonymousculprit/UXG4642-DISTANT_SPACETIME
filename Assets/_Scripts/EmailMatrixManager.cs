@@ -11,10 +11,11 @@ public class EmailMatrixManager
 
     CSVDataRetriever matrixReader = new();
 
-    public void Init(string dataPath = null, string[] emailFields = null)
+    public void Init(string dataPath = null, string[] emailFields = null, string dataFolder = null)
     {
         string[] fields = emailFields != null ? emailFields : defaultFields;
-        string path = dataPath != null ? dataPath : Application.dataPath + "/Data/Matrix";
+        string path = dataPath != null ? dataPath : Application.dataPath + "/Data";
+        if (dataFolder != null) path = Application.dataPath + dataFolder;
         matrixReader.SetPath(path);
         matrixReader.CreateDBObjCollection(fields);
     }

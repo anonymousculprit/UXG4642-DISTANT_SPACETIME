@@ -8,7 +8,7 @@ public class CSVDataRetriever
 {
     CSVReader csvReader = new();
 
-    public void SetPath(string path) => csvReader.config.SetPath(path);
+    public void SetPath(string path) { csvReader.config.SetPath(path); }
     public void CreateDBObjCollection(string[] dbObjs)
     {
         CSVDataCleaner cleaner = new();

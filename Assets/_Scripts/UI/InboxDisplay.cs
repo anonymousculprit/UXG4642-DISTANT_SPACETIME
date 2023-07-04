@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InboxDisplay : MonoBehaviour
 {
-    public GameObject emailPrefab, emailContainer;
+    public GameObject emailPrefab, emailContainer, canvas;
 
     public void OnEnable()
     {
@@ -25,6 +25,8 @@ public class InboxDisplay : MonoBehaviour
 
             GameObject newEmailGO = Instantiate(emailPrefab);
             newEmailGO.transform.SetParent(emailContainer.transform);
+            float x = transform.localScale.x / canvas.transform.localScale.x;
+            newEmailGO.transform.localScale = new Vector3(x,x,x);
 
             string id = email.GetFieldData(EmailFields.ID);
             EmailPrefab newEmailClass = newEmailGO.GetComponent<EmailPrefab>();

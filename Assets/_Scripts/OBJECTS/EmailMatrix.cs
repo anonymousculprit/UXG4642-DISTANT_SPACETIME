@@ -26,9 +26,17 @@ public static class EmailMatrix
     public static string GetPlayerReplyByEmailID(string id) => ResponseToEmailRegistry.Find(x => x.npcEmail == id).playerReply;
     public static string GetNPCReplyByEmailID(string id) => ResponseToEmailRegistry.Find(x => x.npcEmail == id).npcReply;
     public static string GetNPCReplyByPlayerReplyID(string id) => ResponseToEmailRegistry.Find(x => x.playerReply == id).npcReply;
-    public static void MarkReplyByPlayerReplyID(string id) => ResponseToEmailRegistry.Find(x => x.playerReply == id).PlayerHasReplied();
+    public static string GetEmailIDByPlayerReplyID(string id) => ResponseToEmailRegistry.Find(x => x.playerReply == id).npcEmail;
     public static bool PlayerHasRepliedToEmailID(string id) => ResponseToEmailRegistry.Find(x => x.npcEmail == id).replied;
     public static bool PlayerHasRepliedToNPCReplyID(string id) => ResponseToEmailRegistry.Find(x => x.npcReply == id).replied;
+
+    public static void MarkReplyByPlayerReplyID(string id) // haha this was longer than i thought because structs pass by value and not by ref :')
+    {
+        EmailResponseReply updatingEntry = ResponseToEmailRegistry.Find(x => x.playerReply == id);
+        ResponseToEmailRegistry.Remove(updatingEntry);
+        updatingEntry.PlayerHasReplied();
+        ResponseToEmailRegistry.Add(updatingEntry);
+    }
 }
 
 public struct EmailResponseReply
@@ -46,5 +54,5 @@ public struct EmailResponseReply
         replied = false;
     }
 
-    public void PlayerHasReplied() => replied = true;
+    public void PlayerHasReplied() { replied = true; }
 }
