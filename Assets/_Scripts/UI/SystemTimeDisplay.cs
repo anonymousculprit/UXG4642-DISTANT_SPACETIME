@@ -36,7 +36,7 @@ public class SystemTimeDisplay : MonoBehaviour
         int hour = System.DateTime.Now.Hour;
         int minute = System.DateTime.Now.Minute;
 
-        text.text = hour + ":" + minute;
+        text.text = hour + ":" + (minute < 10 ? "0" + minute : minute);
     }
 
     private void OnDisable() => StopAllCoroutines();

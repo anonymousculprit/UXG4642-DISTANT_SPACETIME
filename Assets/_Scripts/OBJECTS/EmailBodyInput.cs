@@ -31,5 +31,4 @@ public class EmailBodyInput : MonoBehaviour
         else
             submitButton.SetActive(false);
     }
-
 }

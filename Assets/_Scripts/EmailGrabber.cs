@@ -15,8 +15,7 @@ public class EmailGrabber : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        instance = this;
     }
 
     public void Init(int day)
@@ -66,8 +65,12 @@ public class EmailGrabber : MonoBehaviour
                         continue;
                     }
 
-                    emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID)));
-                    emailRemovalList.Add(inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID)));
+                    Debug.Log("email.ID: " + email.GetFieldData(EmailFields.ID));
+
+                    Email pReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
+                    Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
+                    if (pReply != null) emailRemovalList.Add(pReply);
+                    if (nReply != null) emailRemovalList.Add(nReply);
                 }
             }
 

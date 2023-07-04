@@ -9,58 +9,73 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
+public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string tooltipDescription;
     public float waitForSeconds = 3;
     public float fadeTime = 0.5f;
-    public GameObject tooltipGameObject;
+    public GameObject tooltipGO;
     public RectTransform tooltipCanvas;
 
-    RectTransform tt_PanelRTransform, tt_GORTransform;
-    Image tt_Panel;
-    TextMeshProUGUI tt_Text;
-    Color col_textFade, col_panelFade, col_textO, col_panelO;
+    RectTransform tt_PanelRTransform;
+    public Image tt_Panel;
+    public TextMeshProUGUI tt_Text;
+    public Color col_textO, col_panelO;
+    Color col_textFade, col_panelFade;
 
     private void Start()
     {
-        // TODO: Assign correct Components to correct Variables
-        tt_GORTransform = tooltipGameObject.GetComponent<RectTransform>();
+        tt_PanelRTransform = tt_Panel.gameObject.GetComponent<RectTransform>();
         tt_Text.text = tooltipDescription;
 
         // get color to lerp from
-        col_textFade = tt_Text.color;
-        col_panelFade = tt_Panel.color;
+        col_textFade = col_textO;
+        col_panelFade = col_panelO;
         col_textFade.a = 0;
         col_panelFade.a = 0;
 
-        // get color to lerp to
-        col_textO = tt_Text.color;
-        col_panelO = tt_Panel.color;
+        tt_Text.color = col_textFade;
+        tt_Panel.color = col_panelFade;
     }
 
     private void Update()
     {
         // placing tooltip on cursor, where appropriate based on tooltip box size
-        if (tooltipGameObject.activeInHierarchy)
+        if (tooltipGO.activeInHierarchy)
         {
-            Vector2 anchorPos = Input.mousePosition / tooltipCanvas.localScale.x;
+            Vector2 displayPos = Input.mousePosition;
 
-            if (anchorPos.x + tt_PanelRTransform.rect.width > tooltipCanvas.rect.width)
-                anchorPos.x = tooltipCanvas.rect.width - tt_PanelRTransform.rect.width;
+            float screenTop = tooltipCanvas.rect.height;
+            float screenRight = tooltipCanvas.rect.width;
 
-            if (anchorPos.x + tt_PanelRTransform.rect.width > tooltipCanvas.rect.width)
-                anchorPos.x = tooltipCanvas.rect.width - tt_PanelRTransform.rect.width;
+            float halfOfTooltipWidth = tt_PanelRTransform.rect.width / 2;
+            float halfOfTooltipHeight = tt_PanelRTransform.rect.height / 2;
 
-            tt_GORTransform.anchoredPosition = anchorPos;
+            displayPos.x -= halfOfTooltipWidth;
+            displayPos.y += halfOfTooltipHeight;
+
+            if (displayPos.x + halfOfTooltipWidth > screenRight)
+                displayPos.x = screenRight - halfOfTooltipWidth;
+
+            if (displayPos.x < halfOfTooltipWidth)
+                displayPos.x = halfOfTooltipWidth;
+
+            if (displayPos.y + halfOfTooltipHeight > screenTop)
+                displayPos.y = screenTop - halfOfTooltipHeight;
+
+            if (displayPos.y < halfOfTooltipHeight )
+                displayPos.y = halfOfTooltipHeight;
+
+            tt_PanelRTransform.anchoredPosition = displayPos;
         }
     }
 
 
     IEnumerator ShowTooltip()
     {
+        tt_Text.text = tooltipDescription;
         yield return new WaitForSeconds(waitForSeconds);
-        tooltipGameObject.SetActive(true);
+        tooltipGO.SetActive(true);
 
         float t = 0f;
         while (t < fadeTime)
@@ -70,7 +85,6 @@ public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             tt_Panel.color = Color.Lerp(col_panelFade, col_panelO, t / fadeTime);
             yield return null;
         }
-
         tt_Text.color = col_textO;
         tt_Panel.color = col_panelO;
         yield return null;
@@ -79,12 +93,12 @@ public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     void ResetTooltip()
     {
         StopAllCoroutines();
-        tooltipGameObject.SetActive(false);
+        tooltipGO.SetActive(false);
         tt_Panel.color = col_panelFade;
         tt_Text.color = col_textFade;
     }
 
     public void OnPointerEnter(PointerEventData eventData) => StartCoroutine(ShowTooltip());
     public void OnPointerExit(PointerEventData eventData) => ResetTooltip();
-    public void OnPointerMove(PointerEventData eventData) => ResetTooltip();
+    //public void OnPointerMove(PointerEventData eventData) => ResetTooltip();
 }

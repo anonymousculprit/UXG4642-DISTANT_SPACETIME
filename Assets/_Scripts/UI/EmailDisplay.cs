@@ -17,8 +17,7 @@ public class EmailDisplay : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        instance = this;
     }
 
     private void Start()
@@ -45,7 +44,8 @@ public class EmailDisplay : MonoBehaviour
 
     public void ShowEmailSentUI()
     {
-        // TODO: Show Email Sent UI
+        Debug.Log("attempting to show UI");
+        EmailSentDisplay.instance.ShowPopup();
         UnselectingEmail?.Invoke();
         UnloadReaderContents();
     }

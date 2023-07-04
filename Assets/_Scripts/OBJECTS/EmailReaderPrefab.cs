@@ -46,20 +46,15 @@ public class EmailReaderPrefab : MonoBehaviour
     }
     public void WriteReply()
     {
-        Debug.Log("Test#0");
         ClearReader();
 
-        Debug.Log("Test#1");
-
         Email emailData = GameManager.instance.emailDataManager.GetEmailByID(EmailDisplay.instance.playerReplyID);
-
-        Debug.Log("Test#2");
 
         subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
         authorLine.text = emailData.GetFieldData(EmailFields.Author);
         dateLine.text = emailData.GetFieldData(EmailFields.Date);
         playerTemplateText.text = emailData.GetFieldData(EmailFields.Body);
-        submitButton.SetActive(true);
+        //submitButton.SetActive(true);
         playerTemplateGO.SetActive(true);
         playerTypingGO.SetActive(true);
     }
