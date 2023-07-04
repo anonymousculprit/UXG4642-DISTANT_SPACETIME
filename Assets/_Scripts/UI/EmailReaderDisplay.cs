@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class EmailDisplay : MonoBehaviour
+public class EmailReaderDisplay : MonoBehaviour
 {
-    public static EmailDisplay instance;
+    public static EmailReaderDisplay instance;
     public event Announcement UnselectingEmail;
     public GameObject emailReaderPrefabGO;
     public EmailReaderPrefab emailReaderPrefabClass;
@@ -25,9 +25,9 @@ public class EmailDisplay : MonoBehaviour
         emailReaderPrefabClass = emailReaderPrefabGO.GetComponent<EmailReaderPrefab>();
     }
 
-    public void LoadReaderContents(string id)
+    public void LoadReaderContents(string id, bool hasReply)
     {
-        bool addId = EmailMatrix.EmailIDHasPlayerReply(id);
+        bool addId = hasReply;
         currentEmailID = id;
         playerReplyID = addId ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
 
@@ -44,7 +44,6 @@ public class EmailDisplay : MonoBehaviour
 
     public void ShowEmailSentUI()
     {
-        Debug.Log("attempting to show UI");
         EmailSentDisplay.instance.ShowPopup();
         UnselectingEmail?.Invoke();
         UnloadReaderContents();

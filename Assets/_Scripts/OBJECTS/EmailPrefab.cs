@@ -32,15 +32,35 @@ public class EmailPrefab : MonoBehaviour
         this.subject.text = subject;
         this.author.text = author;
         hasReply = reply;
-        replyIconGO.SetActive(false);
-        unreadIconGO.SetActive(true);
 
+        CheckIfEmailHasBeenRead();
+        ShortenEmailDisplay(subject, author);
+    }
+
+    void ShortenEmailDisplay(string subject, string author)
+    {
         if (subject.Length > subjectLineMaxCharacters)
             this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
         if (author.Length > authorLineMaxCharacters)
             this.author.text = subject.Substring(0, authorLineMaxCharacters) + "...";
+    }
 
-        ChangeColor(GameManager.emailDataManager.GetEmailByID(emailID).HasBeenRead() ? read : unread);
+    void CheckIfEmailHasBeenRead()
+    {
+        bool hasBeenRead = GameManager.emailDataManager.GetEmailByID(emailID).HasBeenRead();
+
+        if (hasBeenRead)
+        {
+            replyIconGO.SetActive(false);
+            unreadIconGO.SetActive(false);
+            ChangeColor(read);
+        }
+        else
+        {
+            replyIconGO.SetActive(false);
+            unreadIconGO.SetActive(true);
+            ChangeColor(unread);
+        }
     }
 
     public void OnClick()
@@ -49,12 +69,12 @@ public class EmailPrefab : MonoBehaviour
             selectedEmail.SetDeselected();
         selectedEmail = this;
         SetSelected();
-        EmailDisplay.instance.LoadReaderContents(emailID);
+        EmailReaderDisplay.instance.LoadReaderContents(emailID, hasReply);
     }
 
     public void SetSelected()
     {
-        EmailDisplay.instance.UnselectingEmail += SetDeselectedByEmailDisplay;
+        EmailReaderDisplay.instance.UnselectingEmail += SetDeselectedByEmailDisplay;
         ChangeColor(selected);
 
         unreadIconGO.SetActive(false);
@@ -68,17 +88,17 @@ public class EmailPrefab : MonoBehaviour
 
     public void SetDeselected()
     {
-        EmailDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
+        EmailReaderDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
         ChangeColor(read);
-
-        if (replyIconGO.activeInHierarchy)
+        
+        if (hasReply && replyIconGO.activeInHierarchy)
             if (!EmailMatrix.PlayerHasRepliedToEmailID(emailID))
                 iconImg.color = unread.iconColor;
     }
 
     public void SetDeselectedByEmailDisplay()
     {
-        EmailDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
+        EmailReaderDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
         ChangeColor(read);
     }
 

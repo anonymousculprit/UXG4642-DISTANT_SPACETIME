@@ -18,6 +18,9 @@ public class InboxDisplay : MonoBehaviour
 
     void LoadInbox()
     {
+        List<string> todaysEmails = new();
+        todaysEmails.AddRange(EmailMatrix.GetEmailsByDay(GameManager.instance.GetDay()));
+
         List<Email> emails = EmailGrabber.instance.GetInbox();
         foreach(Email email in emails)
         {
@@ -34,8 +37,18 @@ public class InboxDisplay : MonoBehaviour
                 id: id,
                 subject: email.GetFieldData(EmailFields.Subject),
                 author: email.GetFieldData(EmailFields.Author),
-                reply: EmailMatrix.EmailIDHasPlayerReply(id)
-                );
+                reply: CheckForShowReply(id)
+                ); 
+        }
+
+        bool CheckForShowReply(string id)
+        {
+            if (EmailMatrix.EmailIDHasPlayerReply(id))
+                if (!EmailMatrix.PlayerHasRepliedToEmailID(id) && !string.IsNullOrEmpty(todaysEmails.Find(x => x == id)))
+                    return true;
+            return false;
         }
     }
+
+
 }

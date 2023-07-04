@@ -48,7 +48,7 @@ public class EmailReaderPrefab : MonoBehaviour
     {
         ClearReader();
 
-        Email emailData = GameManager.emailDataManager.GetEmailByID(EmailDisplay.instance.playerReplyID);
+        Email emailData = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.playerReplyID);
 
         subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
         authorLine.text = emailData.GetFieldData(EmailFields.Author);
@@ -61,8 +61,9 @@ public class EmailReaderPrefab : MonoBehaviour
     public void SubmitPlayerReply()
     {
         // TODO: submit text/save in system?
-        EmailMatrix.MarkReplyByPlayerReplyID(EmailDisplay.instance.playerReplyID);
-        EmailDisplay.instance.ShowEmailSentUI();
+        EmailMatrix.MarkReplyByPlayerReplyID(EmailReaderDisplay.instance.playerReplyID);
+        EmailReaderDisplay.instance.ShowEmailSentUI();
+        // TODO: add player text to email, disable reply button on this email
     }
     public void UpdateTimeNow() => dateLine.text = System.DateTime.Now.ToString("MM/dd/yyyy");
 }

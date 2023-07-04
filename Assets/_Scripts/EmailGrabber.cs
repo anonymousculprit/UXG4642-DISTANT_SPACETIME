@@ -78,9 +78,9 @@ public class EmailGrabber : MonoBehaviour
                 }
             }
 
-        //if (emailRemovalList.Count > 0)
-        //    foreach (Email email in emailRemovalList)
-        //        inbox.Remove(email);
+        if (emailRemovalList.Count > 0)
+            foreach (Email email in emailRemovalList)
+                inbox.Remove(email);
     }
 
     public void CheckAllEmailsInsideInbox()
