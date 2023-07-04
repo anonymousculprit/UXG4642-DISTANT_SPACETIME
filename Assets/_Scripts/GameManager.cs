@@ -12,8 +12,8 @@ public class GameManager : MonoBehaviour
     public event Announcement InitComplete;
     public static void ClearInstance() => instance = null;
     private void Awake() => ManageInstance();
-    public EmailDataManager emailDataManager = new();
-    public EmailMatrixManager emailMatrixManager = new();
+    public static EmailDataManager emailDataManager = new();
+    public static EmailMatrixManager emailMatrixManager = new();
 
     public string emailDataFolder, emailMatrixFolder;
     public bool customDayInput = false;
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
             if (!string.IsNullOrEmpty(emailDataFolder)) emailDataManager.Init(dataFolder: emailDataFolder); else emailDataManager.Init();
             if (!string.IsNullOrEmpty(emailMatrixFolder)) emailMatrixManager.Init(dataFolder: emailDataFolder); else emailMatrixManager.Init();
         }
-        if (instance != this) Destroy(this);
+        if (instance != this) Destroy(gameObject);
     }
 }
 

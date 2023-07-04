@@ -40,7 +40,7 @@ public class EmailPrefab : MonoBehaviour
         if (author.Length > authorLineMaxCharacters)
             this.author.text = subject.Substring(0, authorLineMaxCharacters) + "...";
 
-        ChangeColor(GameManager.instance.emailDataManager.GetEmailByID(emailID).HasBeenRead() ? read : unread);
+        ChangeColor(GameManager.emailDataManager.GetEmailByID(emailID).HasBeenRead() ? read : unread);
     }
 
     public void OnClick()

@@ -48,7 +48,7 @@ public class EmailReaderPrefab : MonoBehaviour
     {
         ClearReader();
 
-        Email emailData = GameManager.instance.emailDataManager.GetEmailByID(EmailDisplay.instance.playerReplyID);
+        Email emailData = GameManager.emailDataManager.GetEmailByID(EmailDisplay.instance.playerReplyID);
 
         subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
         authorLine.text = emailData.GetFieldData(EmailFields.Author);

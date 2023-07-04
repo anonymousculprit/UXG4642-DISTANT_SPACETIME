@@ -1832,6 +1832,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 456033556}
   m_CullTransparentMesh: 1
+--- !u!1 &566263480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 566263481}
+  - component: {fileID: 566263482}
+  m_Layer: 0
+  m_Name: EmailGrabber
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &566263481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566263480}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 632465132}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &566263482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 566263480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4243125d20095424ab1fe498e23c701d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepPreviousDayEmails: 1
+  divider: ============================================================================
 --- !u!1 &573136727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2316,6 +2362,7 @@ Transform:
   m_Children:
   - {fileID: 1737521011}
   - {fileID: 1868792112}
+  - {fileID: 566263481}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4263,7 +4310,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1996888328}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.26295236
+  m_Size: 0.25429854
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7558,7 +7605,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2072836881}
   - component: {fileID: 2072836883}
-  - component: {fileID: 2072836882}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -7581,20 +7627,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2072836882
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2072836880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4243125d20095424ab1fe498e23c701d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  keepPreviousDayEmails: 1
-  divider: ============================================================================
 --- !u!114 &2072836883
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -26,19 +26,20 @@ public class EmailGrabber : MonoBehaviour
                 PopulateInboxByDay(i);
         }
         PopulateInboxByDay(day);
+        SortEmailsInInbox();
     }
 
     public void PopulateInboxByDay(int day)
     {
         string[] emails = EmailMatrix.GetEmailsByDay(day);
         foreach (string emailID in emails)
-            inbox.Add(GameManager.instance.emailDataManager.GetEmailByID(emailID));
-        SortEmailsInInbox();
+            inbox.Add(GameManager.emailDataManager.GetEmailByID(emailID));
     }
 
     public void SortEmailsInInbox()
     {
         List<Email> emailRemovalList = new();
+
 
         if (inbox.Count > 0)
             foreach (Email email in inbox)
@@ -64,19 +65,32 @@ public class EmailGrabber : MonoBehaviour
                         emailRemovalList.Add(email);
                         continue;
                     }
+                    else
+                    {
+                        string pReplyID = EmailMatrix.GetPlayerReplyByEmailID(emailID);
+                        string nReplyID = EmailMatrix.GetNPCReplyByEmailID(emailID);
 
-                    Debug.Log("email.ID: " + email.GetFieldData(EmailFields.ID));
-
-                    Email pReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
-                    Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
-                    if (pReply != null) emailRemovalList.Add(pReply);
-                    if (nReply != null) emailRemovalList.Add(nReply);
+                        Email pReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == pReplyID);
+                        Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == nReplyID);
+                        if (pReply != null) emailRemovalList.Add(pReply);
+                        if (nReply != null) emailRemovalList.Add(nReply);
+                    }
                 }
             }
 
-        if (emailRemovalList.Count > 0)
-            foreach(Email email in emailRemovalList)
-                inbox.Remove(email);
+        //if (emailRemovalList.Count > 0)
+        //    foreach (Email email in emailRemovalList)
+        //        inbox.Remove(email);
+    }
+
+    public void CheckAllEmailsInsideInbox()
+    {
+
+        foreach (Email email in inbox)
+        {
+            if (email != null)
+                Debug.Log("email: " + email.Get(EmailFields.ID));
+        }
     }
 
     public int GetUnreadEmailsCount()

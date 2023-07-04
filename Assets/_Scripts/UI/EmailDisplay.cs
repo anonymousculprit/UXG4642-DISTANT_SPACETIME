@@ -31,7 +31,7 @@ public class EmailDisplay : MonoBehaviour
         currentEmailID = id;
         playerReplyID = addId ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
 
-        Email email = GameManager.instance.emailDataManager.GetEmailByID(id);
+        Email email = GameManager.emailDataManager.GetEmailByID(id);
         emailReaderPrefabClass.PopulateReader(
             subject: email.GetFieldData(EmailFields.Subject),
             author: email.GetFieldData(EmailFields.Author),
