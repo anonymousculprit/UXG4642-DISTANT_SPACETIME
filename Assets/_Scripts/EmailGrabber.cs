@@ -12,6 +12,7 @@ public class EmailGrabber : MonoBehaviour
     bool keepPreviousDayEmails, listAllEmails;
 
     List<Email> inbox = new();
+    EmailAppender emailAppender = new();
 
     private void Awake()
     {
@@ -56,12 +57,13 @@ public class EmailGrabber : MonoBehaviour
                         Email playerReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
                         Email npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
 
-                        StringBuilder sb = new();
-                        sb.Append(npcReply.GetFieldData(EmailFields.Body));
-                        sb.Append("\n" + divider + "\n");
-                        sb.Append(playerReply.GetFieldData(EmailFields.Body));
-                        sb.Append("\n" + divider + "\n");
-                        sb.Append(email.GetFieldData(EmailFields.Body));
+                        if (!npcReply.HasBeenEdited())
+                        {
+                            string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
+                            newBody = emailAppender.AppendEmailBtoA(npcReply.Get(EmailFields.Body), newBody);
+
+                            npcReply.ReplaceBodyText(newBody);
+                        }
 
                         emailRemovalList.Add(playerReply);
                         emailRemovalList.Add(email);
@@ -84,6 +86,8 @@ public class EmailGrabber : MonoBehaviour
         if (emailRemovalList.Count > 0)
             foreach (Email email in emailRemovalList)
                 inbox.Remove(email);
+
+        inbox.Reverse();
     }
 
     public void CheckAllEmailsInsideInbox()

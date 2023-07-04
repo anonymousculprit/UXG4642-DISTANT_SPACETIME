@@ -12,6 +12,7 @@ public class EmailReaderDisplay : MonoBehaviour
     public event Announcement UnselectingEmail;
     public GameObject emailReaderPrefabGO;
     public EmailReaderPrefab emailReaderPrefabClass;
+    EmailAppender emailAppender = new();
     public string currentEmailID;
     public string playerReplyID;
 
@@ -32,11 +33,15 @@ public class EmailReaderDisplay : MonoBehaviour
         playerReplyID = addId ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
 
         Email email = GameManager.emailDataManager.GetEmailByID(id);
+
+        string bodyText = email.GetFieldData(EmailFields.Body);
+        if (emailAppender.EmailNeedsFormattingForToday(id)) bodyText = emailAppender.AppendEmailForEmailReader(id, bodyText);
+
         emailReaderPrefabClass.PopulateReader(
             subject: email.GetFieldData(EmailFields.Subject),
             author: email.GetFieldData(EmailFields.Author),
             date: email.GetFieldData(EmailFields.Date),
-            body: email.GetFieldData(EmailFields.Body),
+            body: bodyText,
             reply: addId);
 
         email.MarkAsRead();

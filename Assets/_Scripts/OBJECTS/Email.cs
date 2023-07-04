@@ -9,6 +9,7 @@ public class Email
 
     Dictionary<string, string> data = new Dictionary<string, string>();
     bool markAsRead = false;
+    bool hasBeenEdited = false;
 
     public void CreateEmail(string[] fields, string[] emailData)
     {
@@ -31,4 +32,12 @@ public class Email
     public string Get(string field) => GetFieldData(field);
     public void MarkAsRead() => markAsRead = true;
     public bool HasBeenRead() => markAsRead;
+    public bool HasBeenEdited() => hasBeenEdited;
+    public void MarkAsEdited() => hasBeenEdited = true;
+    public void ReplaceBodyText(string newBodyText)
+    {
+        data.Remove(EmailFields.Body);
+        data.Add(EmailFields.Body, newBodyText);
+        MarkAsEdited();
+    }
 }
