@@ -38,7 +38,6 @@ public class GameManager : MonoBehaviour
     {
         EmailGrabber.instance.Init(day);
         InitComplete?.Invoke();
-        StartDay();
     }
 
     public void JumpToDay(int newDay) => day = newDay;

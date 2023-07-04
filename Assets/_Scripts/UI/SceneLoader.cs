@@ -15,14 +15,17 @@ public class SceneLoader : MonoBehaviour
     Animator transition;
 
     private void Awake() => instance = this;
-    private void OnEnable() => transition = gameObject.GetComponent<Animator>();
-
+    private void OnEnable()
+    {
+        transition = gameObject.GetComponent<Animator>();
+        transition.speed = 0;
+    }
 
     public void TransitionToMainMenu() => SetSceneToTransitionTo(0);
     public void TransitionToGameScene() => SetSceneToTransitionTo(1);
     public void SetSceneToTransitionTo(int i) => sceneToTransition = i;
-    public void FadeFromBlack() => transition.SetTrigger("FadeFromBlack");
-    public void FadeToBlack() => transition.SetTrigger("FadeToBlack");
+    public void FadeFromBlack() { transition.SetTrigger("FadeFromBlack"); transition.speed = 1; }
+    public void FadeToBlack() { transition.SetTrigger("FadeToBlack"); transition.speed = 1; }
 
     public void ANIM_Loaded() => Loaded?.Invoke();
     public void ANIM_TransitionToNextScene() => SceneManager.LoadScene(sceneToTransition);
