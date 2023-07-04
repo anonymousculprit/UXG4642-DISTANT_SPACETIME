@@ -5,6 +5,7 @@ using UnityEngine;
 public class InboxDisplay : MonoBehaviour
 {
     public GameObject emailPrefab, emailContainer, canvas;
+    bool canReplyToPreviousDayEmails;
 
     public void OnEnable()
     {
@@ -18,6 +19,7 @@ public class InboxDisplay : MonoBehaviour
 
     void LoadInbox()
     {
+        canReplyToPreviousDayEmails = GameManager.instance.canReplyToPreviousDayEmails;
         List<string> todaysEmails = new();
         todaysEmails.AddRange(EmailMatrix.GetEmailsByDay(GameManager.instance.GetDay()));
 
@@ -43,11 +45,17 @@ public class InboxDisplay : MonoBehaviour
 
         bool CheckForShowReply(string id)
         {
+            if (canReplyToPreviousDayEmails)
+                if (EmailMatrix.EmailIDHasPlayerReply(id) && !EmailMatrix.PlayerHasRepliedToEmailID(id))
+                    return true;
+
             if (EmailMatrix.EmailIDHasPlayerReply(id))
-                if (!EmailMatrix.PlayerHasRepliedToEmailID(id) && !string.IsNullOrEmpty(todaysEmails.Find(x => x == id)))
+                if (!EmailMatrix.PlayerHasRepliedToEmailID(id) && EmailIsNotFromToday(id))
                     return true;
             return false;
         }
+
+        bool EmailIsNotFromToday(string id) => !string.IsNullOrEmpty(todaysEmails.Find(x => x == id));
     }
 
 

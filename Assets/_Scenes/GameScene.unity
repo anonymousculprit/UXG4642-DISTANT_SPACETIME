@@ -1055,7 +1055,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 50}
+  m_SizeDelta: {x: 1000, y: 50}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &332690553
 MonoBehaviour:
@@ -1107,9 +1107,9 @@ MonoBehaviour:
   m_fontSize: 32
   m_fontSizeBase: 32
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 32
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -1862,7 +1862,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 632465132}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &566263482
 MonoBehaviour:
@@ -1878,6 +1878,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keepPreviousDayEmails: 1
   divider: ============================================================================
+  listAllEmails: 1
 --- !u!1 &573136727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,8 +2362,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1737521011}
-  - {fileID: 1868792112}
   - {fileID: 566263481}
+  - {fileID: 1868792112}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2618,6 +2619,7 @@ MonoBehaviour:
   emailPrefab: {fileID: 1408887323548715592, guid: 850c2a46bd61c834ebc5a129e14be377, type: 3}
   emailContainer: {fileID: 1876354078}
   canvas: {fileID: 677257116}
+  canReplyToPreviousDayEmails: 1
 --- !u!1 &687063614
 GameObject:
   m_ObjectHideFlags: 0
@@ -4310,7 +4312,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1996888328}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.25429854
+  m_Size: 0.26308838
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5471,7 +5473,7 @@ MonoBehaviour:
   dateLine: {fileID: 1012255167}
   bodyText: {fileID: 1926435405}
   playerTemplateText: {fileID: 2074043645}
-  playerTypingText: {fileID: 2012447157}
+  playerTypingText: {fileID: 2012447159}
   replyButton: {fileID: 702120244}
   submitButton: {fileID: 1713445819}
 --- !u!1 &1689843986

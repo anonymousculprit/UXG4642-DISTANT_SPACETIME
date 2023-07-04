@@ -10,7 +10,8 @@ public class EmailReaderPrefab : MonoBehaviour
 {
     public GameObject prefab;
     public TextMeshProUGUI subjectLine;
-    public TextMeshProUGUI authorLine, dateLine, bodyText, playerTemplateText, playerTypingText;
+    public TextMeshProUGUI authorLine, dateLine, bodyText, playerTemplateText;
+    public TMP_InputField playerTypingText;
     public GameObject replyButton, submitButton;
     private GameObject playerTypingGO, playerTemplateGO;
 
@@ -57,12 +58,14 @@ public class EmailReaderPrefab : MonoBehaviour
         //submitButton.SetActive(true);
         playerTemplateGO.SetActive(true);
         playerTypingGO.SetActive(true);
+        playerTypingText.Select();
     }
     public void SubmitPlayerReply()
     {
         // TODO: submit text/save in system?
         EmailMatrix.MarkReplyByPlayerReplyID(EmailReaderDisplay.instance.playerReplyID);
         EmailReaderDisplay.instance.ShowEmailSentUI();
+        ClearReader();
         // TODO: add player text to email, disable reply button on this email
     }
     public void UpdateTimeNow() => dateLine.text = System.DateTime.Now.ToString("MM/dd/yyyy");

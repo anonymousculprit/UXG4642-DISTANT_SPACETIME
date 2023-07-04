@@ -8,8 +8,8 @@ using UnityEngine;
 public class EmailGrabber : MonoBehaviour
 {
     public static EmailGrabber instance;
-    public bool keepPreviousDayEmails = false;
     public string divider = "=====================";
+    bool keepPreviousDayEmails, listAllEmails;
 
     List<Email> inbox = new();
 
@@ -20,6 +20,8 @@ public class EmailGrabber : MonoBehaviour
 
     public void Init(int day)
     {
+        keepPreviousDayEmails = GameManager.instance.keepPreviousDayEmails;
+        listAllEmails = GameManager.instance.DEBUG_listAllEmails;
         if (keepPreviousDayEmails && day > 1)
         {
             for (int i = 1; i < day; i++)
@@ -78,6 +80,7 @@ public class EmailGrabber : MonoBehaviour
                 }
             }
 
+        if (listAllEmails) return;
         if (emailRemovalList.Count > 0)
             foreach (Email email in emailRemovalList)
                 inbox.Remove(email);
@@ -85,7 +88,6 @@ public class EmailGrabber : MonoBehaviour
 
     public void CheckAllEmailsInsideInbox()
     {
-
         foreach (Email email in inbox)
         {
             if (email != null)

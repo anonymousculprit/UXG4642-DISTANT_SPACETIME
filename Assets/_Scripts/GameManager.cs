@@ -15,7 +15,14 @@ public class GameManager : MonoBehaviour
     public static EmailDataManager emailDataManager = new();
     public static EmailMatrixManager emailMatrixManager = new();
 
-    public string emailDataFolder, emailMatrixFolder;
+    [Header("Email Settings")]
+    public string emailDataFolder;
+    public string emailMatrixFolder;
+    public bool keepPreviousDayEmails = true;
+    public bool canReplyToPreviousDayEmails = false;
+    public bool DEBUG_listAllEmails = false;
+
+    [Header("Set Custom Day")]
     public bool customDayInput = false;
     public int customDay = 1;
     int day = 1;
