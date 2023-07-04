@@ -20,9 +20,6 @@ public class InboxDisplay : MonoBehaviour
     void LoadInbox()
     {
         canReplyToPreviousDayEmails = GameManager.instance.canReplyToPreviousDayEmails;
-        List<string> todaysEmails = new();
-        todaysEmails.AddRange(EmailMatrix.GetEmailsByDay(GameManager.instance.GetDay()));
-
         List<Email> emails = EmailGrabber.instance.GetInbox();
         foreach(Email email in emails)
         {
@@ -50,12 +47,10 @@ public class InboxDisplay : MonoBehaviour
                     return true;
 
             if (EmailMatrix.EmailIDHasPlayerReply(id))
-                if (!EmailMatrix.PlayerHasRepliedToEmailID(id) && EmailIsNotFromToday(id))
+                if (!EmailMatrix.PlayerHasRepliedToEmailID(id) && EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), id))
                     return true;
             return false;
         }
-
-        bool EmailIsNotFromToday(string id) => !string.IsNullOrEmpty(todaysEmails.Find(x => x == id));
     }
 
 

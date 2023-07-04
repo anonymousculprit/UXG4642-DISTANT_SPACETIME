@@ -16,6 +16,13 @@ public static class EmailMatrix
         return emails;
     }
 
+    public static bool EmailIsFromToday(int day, string emailID)
+    {
+        List<string> emailsSearchable = new();
+        emailsSearchable.AddRange(GetEmailsByDay(day));
+        return emailsSearchable.Contains(emailID);
+    }
+
     public static bool EmailIDIsNPCReply(string id) => !string.IsNullOrEmpty(ResponseToEmailRegistry.Find(x => x.npcReply == id).npcReply);
     public static bool EmailIDIsPlayerReply(string id) => !string.IsNullOrEmpty(ResponseToEmailRegistry.Find(x => x.playerReply == id).playerReply);
 

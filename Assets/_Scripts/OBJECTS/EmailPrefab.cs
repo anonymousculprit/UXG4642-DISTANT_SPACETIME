@@ -39,10 +39,8 @@ public class EmailPrefab : MonoBehaviour
 
     void ShortenEmailDisplay(string subject, string author)
     {
-        if (subject.Length > subjectLineMaxCharacters)
-            this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
-        if (author.Length > authorLineMaxCharacters)
-            this.author.text = subject.Substring(0, authorLineMaxCharacters) + "...";
+        if (subject.Length > subjectLineMaxCharacters) this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
+        if (author.Length > authorLineMaxCharacters) this.author.text = subject.Substring(0, authorLineMaxCharacters) + "...";
     }
 
     void CheckIfEmailHasBeenRead()
@@ -65,8 +63,7 @@ public class EmailPrefab : MonoBehaviour
 
     public void OnClick()
     {
-        if (selectedEmail != null)
-            selectedEmail.SetDeselected();
+        if (selectedEmail != null) selectedEmail.SetDeselected();
         selectedEmail = this;
         SetSelected();
         EmailReaderDisplay.instance.LoadReaderContents(emailID, hasReply);
@@ -80,10 +77,8 @@ public class EmailPrefab : MonoBehaviour
         unreadIconGO.SetActive(false);
         replyIconGO.SetActive(true);
 
-        if (hasReply)
-            iconImg.sprite = replyIcon;
-        else
-            replyIconGO.SetActive(false);
+        if (hasReply) iconImg.sprite = replyIcon;
+        else replyIconGO.SetActive(false);
     }
 
     public void SetDeselected()
@@ -100,6 +95,9 @@ public class EmailPrefab : MonoBehaviour
     {
         EmailReaderDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
         ChangeColor(read);
+        
+        // TODO: Add player written text to top of email body.
+        hasReply = false;
     }
 
     public void ChangeColor(ColorSet set)

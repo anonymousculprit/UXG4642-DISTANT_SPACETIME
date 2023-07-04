@@ -55,5 +55,4 @@ public class EmailReaderDisplay : MonoBehaviour
         playerReplyID = "";
         emailReaderPrefabClass.ClearReader();
     }
-    
 }

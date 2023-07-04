@@ -26,6 +26,7 @@ public class EmailReaderPrefab : MonoBehaviour
     public void TurnOnPrefab() { prefab.SetActive(true); ClearReader(); }
     public void PopulateReader(string subject, string author, string date, string body, bool reply)
     {
+        ClearReader();
         subjectLine.text = subject;
         authorLine.text = "From: " + author;
         dateLine.text = "Date: " + date;
