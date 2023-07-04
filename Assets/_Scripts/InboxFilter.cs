@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class EmailGrabber : MonoBehaviour
+public class InboxFilter : MonoBehaviour
 {
-    public static EmailGrabber instance;
+    public static InboxFilter instance;
     public string divider = "=====================";
     bool keepPreviousDayEmails, listAllEmails;
 

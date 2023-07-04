@@ -20,7 +20,7 @@ public class InboxDisplay : MonoBehaviour
     void LoadInbox()
     {
         canReplyToPreviousDayEmails = GameManager.instance.canReplyToPreviousDayEmails;
-        List<Email> emails = EmailGrabber.instance.GetInbox();
+        List<Email> emails = InboxFilter.instance.GetInbox();
         foreach(Email email in emails)
         {
             if (email == null) continue;

@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     void SceneLoadResponsibilities(Scene scene, LoadSceneMode mode)
     {
-        EmailGrabber.instance.Init(day);
+        InboxFilter.instance.Init(day);
         InitComplete?.Invoke();
     }
 

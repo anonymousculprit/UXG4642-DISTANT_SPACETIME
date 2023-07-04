@@ -18,7 +18,7 @@ public class UnreadEmailDisplay : MonoBehaviour
         GameManager.instance.InitComplete -= Init;
     }
 
-    public void Init() => SetCounter(EmailGrabber.instance.GetUnreadEmailsCount());
+    public void Init() => SetCounter(InboxFilter.instance.GetUnreadEmailsCount());
 
     public void SetCounter(int i)
     {
