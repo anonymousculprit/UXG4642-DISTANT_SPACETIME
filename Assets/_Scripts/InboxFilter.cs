@@ -54,30 +54,47 @@ public class InboxFilter : MonoBehaviour
                 {
                     if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
                     {
+                        Email npcReply;
                         Email playerReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
-                        Email npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
-
-                        if (!npcReply.HasBeenEdited())
+                        if (EmailMatrix.EmailIDHasNPCReply(emailID))
                         {
-                            string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
-                            newBody = emailAppender.AppendEmailBtoA(npcReply.Get(EmailFields.Body), newBody);
+                            npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
+                            if (!npcReply.HasBeenEdited())
+                            {
+                                string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
+                                newBody = emailAppender.AppendEmailBtoA(npcReply.Get(EmailFields.Body), newBody);
 
-                            npcReply.ReplaceBodyText(newBody);
+                                npcReply.ReplaceBodyText(newBody);
+                            }
+
+                            emailRemovalList.Add(playerReply);
+                            emailRemovalList.Add(email);
                         }
+                        else
+                        {
+                            if (!playerReply.HasBeenEdited())
+                            {
+                                string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
+                                playerReply.ReplaceBodyText(newBody);
+                                playerReply.MarkAsRead();
+                            }
 
-                        emailRemovalList.Add(playerReply);
-                        emailRemovalList.Add(email);
+                            emailRemovalList.Add(email);
+                        }
                         continue;
                     }
                     else
                     {
                         string pReplyID = EmailMatrix.GetPlayerReplyByEmailID(emailID);
-                        string nReplyID = EmailMatrix.GetNPCReplyByEmailID(emailID);
-
                         Email pReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == pReplyID);
-                        Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == nReplyID);
                         if (pReply != null) emailRemovalList.Add(pReply);
-                        if (nReply != null) emailRemovalList.Add(nReply);
+
+                        if (EmailMatrix.EmailIDHasNPCReply(emailID)) 
+                        {
+                            string nReplyID = EmailMatrix.GetNPCReplyByEmailID(emailID);
+                            Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == nReplyID);
+                            if (nReply != null) emailRemovalList.Add(nReply);
+                        }
                     }
                 }
             }

@@ -83,7 +83,7 @@ public class CSVDataCleaner
             new EmailResponseReply(
                 email: emailResponseReply[1],
                 response: emailResponseReply[2],
-                reply: emailResponseReply[3]
+                reply: emailResponseReply.Length < 4 ? "" : emailResponseReply[3]
             ));
     }
 }
