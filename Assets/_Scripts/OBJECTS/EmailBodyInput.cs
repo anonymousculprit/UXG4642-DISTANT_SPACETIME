@@ -15,6 +15,8 @@ public class EmailBodyInput : MonoBehaviour
 
     public void OnValueChanged()
     {
+        DEBUG_SFX.instance.PlayTypingNoise();
+
         string s = "";
         for (int i = 0; i < playerText.text.Length; i++)
         {
