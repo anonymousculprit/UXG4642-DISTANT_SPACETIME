@@ -17,6 +17,11 @@ public class Email
         {
             if (fields[i] == null) fields[i] = "";
             if (emailData[i] == null) emailData[i] = "";
+            if (fields[i] == EmailFields.Body)
+            {
+                emailData[i] = EmailTextCleaner.CleanText(emailData[i]);
+                Debug.Log("emailData Body: " + emailData[i]);
+            }
             data.Add(fields[i], emailData[i]);
         }
     }

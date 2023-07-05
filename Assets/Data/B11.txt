@@ -7,13 +7,13 @@ Worker,
 
 Welcome aboard. 
 
-I'm sure you will find your quarters fitting. You will find rations prepared by the chef-bot at the appropriate timings. 
+I’m sure you will find your quarters fitting. You will find rations prepared by the chef-bot at the appropriate timings. 
 
-The terminal is where you can access instructions sent by the corporation as well as personal messages. Check in on this everyday so as to ensure you do not miss any vital instructions. No need to reply to messages from UTC Corporation, we'll know when you've read a message, so make sure that you read them at the earliest.
+The terminal is where you can access instructions sent by the corporation as well as personal messages. Check in on this everyday so as to ensure you do not miss any vital instructions. No need to reply to messages from UTC Corporation, we’ll know when you’ve read a message, so make sure that you read them at the earliest.
 
-When you're done with your day, turn the terminal off and get your rest. 
+When you’re done with your day, turn the terminal off and get your rest. 
 
-Make yourself comfortable, you're going to be here a while. 
+Make yourself comfortable, you’re going to be here a while. 
 
 Regards,
 UTC Corporation

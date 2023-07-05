@@ -66,7 +66,7 @@ public class TXTDataRetriever
             if (emailInfo[body] != null)
                 emailInfo[body] += "\n\n";
 
-            emailInfo[body] += line;
+            emailInfo[body] += line.Trim();
         }
 
     }
