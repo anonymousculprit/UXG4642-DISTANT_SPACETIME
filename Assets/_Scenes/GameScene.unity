@@ -522,6 +522,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 632465132}
     m_Modifications:
+    - target: {fileID: 930935924, guid: fafe852be42bff942b5d5445af58282d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930935924, guid: fafe852be42bff942b5d5445af58282d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930935924, guid: fafe852be42bff942b5d5445af58282d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 930935924, guid: fafe852be42bff942b5d5445af58282d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 173443069385138672, guid: fafe852be42bff942b5d5445af58282d, type: 3}
       propertyPath: m_Name
       value: SceneTransitions
@@ -6976,10 +6992,10 @@ RectTransform:
   m_Father: {fileID: 188121391}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: 0}
-  m_SizeDelta: {x: 1073, y: 2547.99}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1926435405
 MonoBehaviour:

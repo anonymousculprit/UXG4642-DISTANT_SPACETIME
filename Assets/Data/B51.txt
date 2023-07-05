@@ -5,9 +5,9 @@ Date: DD/MM/YYYY
 
 Worker,
 
-It would seem that the time dilation was more exaggerated than what we expected. We’re not certain when you’ll receive this message, but when you do, know that investigations are underway.
+It would seem that the time dilation was more exaggerated than what we expected. We're not certain when you'll receive this message, but when you do, know that investigations are underway.
 
-In the meantime, carry out your duties as usual. We’re counting on you. 
+In the meantime, carry out your duties as usual. We're counting on you. 
 
 Regards,
 UTC Corporation
