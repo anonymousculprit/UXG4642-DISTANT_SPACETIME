@@ -35,6 +35,7 @@ public class InboxFilter : MonoBehaviour
     public void PopulateInboxByDay(int day)
     {
         string[] emails = EmailMatrix.GetEmailsByDay(day);
+        if (emails == null) return;
         foreach (string emailID in emails)
             inbox.Add(GameManager.emailDataManager.GetEmailByID(emailID));
     }

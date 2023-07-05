@@ -19,7 +19,8 @@ public static class EmailMatrix
     public static bool EmailIsFromToday(int day, string emailID)
     {
         List<string> emailsSearchable = new();
-        emailsSearchable.AddRange(GetEmailsByDay(day));
+        string[] emailsByDay = GetEmailsByDay(day);
+        if (emailsByDay != null) emailsSearchable.AddRange(emailsByDay);
         return emailsSearchable.Contains(emailID);
     }
 
