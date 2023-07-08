@@ -10,8 +10,8 @@ public class EmailDataManager
     public void Init(string dataPath = null, string[] emailFields = null, string dataFolder = null)
     {
         string[] fields = emailFields != null ? emailFields : EmailFields.DefaultEmailFields;
-        string path = dataPath != null ? dataPath : Application.dataPath + "/Data";
-        if (dataFolder != null) path = Application.dataPath + dataFolder;
+        string path = dataPath != null ? dataPath : Application.streamingAssetsPath + "/Data";
+        if (dataFolder != null) path = Application.streamingAssetsPath + dataFolder;
         emails.AddRange(emailReader.GetEmails(path, fields));
         CheckForIDDuplicates();
     }
