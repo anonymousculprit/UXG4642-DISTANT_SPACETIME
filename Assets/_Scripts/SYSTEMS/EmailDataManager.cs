@@ -38,6 +38,7 @@ public class EmailDataManager
         }
 
         if (errorsFound == 0) Debug.Log("No Email ID Conflicts found!");
+        else Debug.Log("Total Errors Found: " + errorsFound);
 
     }
 }
