@@ -15,8 +15,6 @@ public class EmailBodyInput : MonoBehaviour
 
     public void OnValueChanged()
     {
-        DEBUG_SFX.instance.PlayTypingNoise();
-
         string s = "";
         for (int i = 0; i < playerText.text.Length; i++)
         {
@@ -33,4 +31,12 @@ public class EmailBodyInput : MonoBehaviour
         else
             submitButton.SetActive(false);
     }
+
+    public void TypingNoise()
+    {
+        if (Input.anyKeyDown && !(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)))
+            SFXManager.instance.PlayTypingNoise();
+    }
+
+    private void Update() => TypingNoise();
 }

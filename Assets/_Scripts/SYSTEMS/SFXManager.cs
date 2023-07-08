@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DEBUG_SFX : MonoBehaviour
+public class SFXManager : MonoBehaviour
 {
-    public static DEBUG_SFX instance;
+    public static SFXManager instance;
     public AudioSource clicking, typing;
     public float rangeValueForTypingNoises = 0.25f;
 
