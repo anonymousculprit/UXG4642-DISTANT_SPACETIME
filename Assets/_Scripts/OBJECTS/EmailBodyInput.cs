@@ -49,7 +49,6 @@ public class EmailBodyInput : MonoBehaviour
         {
             if (playerText.text[i] != templateText.text[i])
             {
-                Debug.Log("???");
                 string s = "<mark=#" + ColorUtility.ToHtmlStringRGBA(highlightColor) + ">";
                 highlightText.text = highlightText.text.Insert(i, s);
                 highlightActive = true;
