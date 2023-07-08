@@ -6,25 +6,28 @@ using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EmailBodyInput : MonoBehaviour
 {
-    public TextMeshProUGUI templateText;
+    public TextMeshProUGUI templateText, highlightText;
     public TMP_InputField playerText;
     public GameObject submitButton;
+    public Color highlightColor;
+
+    private void OnEnable()
+    {
+        if (Options.GetAutoCompleteEmail())
+        {
+            playerText.text = templateText.text;
+            submitButton.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+    }
 
     public void OnValueChanged()
     {
-        string s = "";
-        for (int i = 0; i < playerText.text.Length; i++)
-        {
-            s += playerText.text[i];
-            if (playerText.text[i] != templateText.text[i])
-            {
-                Debug.Log("error at: " + playerText.text[i].ToString() + "| i: " + i);;
-                Debug.Log("s: " + s);
-            }
-        }
+        CheckToAddMark();
 
         if (playerText.text == templateText.text)
             submitButton.SetActive(true);
@@ -36,6 +39,26 @@ public class EmailBodyInput : MonoBehaviour
     {
         if (Input.anyKeyDown && !(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)))
             SFXManager.instance.PlayTypingNoise();
+    }
+
+    public void CheckToAddMark()
+    {
+        highlightText.text = playerText.text;
+        bool highlightActive = false;
+        for (int i = 0; i < playerText.text.Length; i++)
+        {
+            if (playerText.text[i] != templateText.text[i])
+            {
+                Debug.Log("???");
+                string s = "<mark=#" + ColorUtility.ToHtmlStringRGBA(highlightColor) + ">";
+                highlightText.text = highlightText.text.Insert(i, s);
+                highlightActive = true;
+                break;
+            }
+        }
+
+        if (highlightActive)
+            highlightText.text += "</mark>";
     }
 
     private void Update() => TypingNoise();

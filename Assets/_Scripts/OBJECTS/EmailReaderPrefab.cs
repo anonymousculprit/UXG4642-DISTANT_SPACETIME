@@ -59,7 +59,7 @@ public class EmailReaderPrefab : MonoBehaviour
         //submitButton.SetActive(true);
         playerTemplateGO.SetActive(true);
         playerTypingGO.SetActive(true);
-        playerTypingText.Select();
+        if (!Options.GetAutoCompleteEmail()) playerTypingText.Select();
     }
     public void SubmitPlayerReply()
     {

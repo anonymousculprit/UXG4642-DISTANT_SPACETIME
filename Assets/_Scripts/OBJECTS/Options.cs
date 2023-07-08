@@ -36,5 +36,6 @@ public static class Options
     public static void SFXUnmute() { sfxMuted = false; UpdateSFX?.Invoke(); }
 
     public static void SetAutoCompleteEmail() => autoCompleteEmail = !autoCompleteEmail;
+    public static void SetAutoCompleteEmail(bool value) => autoCompleteEmail = value;
     public static bool GetAutoCompleteEmail() => autoCompleteEmail;
 }
