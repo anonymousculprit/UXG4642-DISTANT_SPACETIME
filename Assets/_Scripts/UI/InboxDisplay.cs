@@ -29,6 +29,7 @@ public class InboxDisplay : MonoBehaviour
             newEmailGO.transform.SetParent(emailContainer.transform);
             float x = transform.localScale.x / canvas.transform.localScale.x;
             newEmailGO.transform.localScale = new Vector3(x,x,x);
+            newEmailGO.transform.localPosition = Vector3.one;
 
             string id = email.GetFieldData(EmailFields.ID);
             EmailPrefab newEmailClass = newEmailGO.GetComponent<EmailPrefab>();

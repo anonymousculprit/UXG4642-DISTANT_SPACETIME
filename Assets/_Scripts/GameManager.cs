@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         InitComplete?.Invoke();
     }
 
-    public void JumpToDay(int newDay) => day = newDay;
+    public void JumpToDay(int newDay) { day = newDay - 1; EndDay(); }
     public void IncrementDay() => day++;
     public void StartDay() => SceneLoader.instance.FadeFromBlack();
     public int GetDay() => day;

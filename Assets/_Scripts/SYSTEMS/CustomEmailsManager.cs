@@ -67,5 +67,9 @@ public class CustomEmailsManager : MonoBehaviour
         EmailMatrix.RegisterResponseToEmailRegistry(newMatrixEntry);
     }
 
-    public void RegisterDayEmailsToMatrix() => EmailMatrix.RegisterDayEmailMatrix(8, customEmailIDs.ToArray());
+    public void RegisterDayEmailsToMatrix()
+    {
+        if (customEmailIDs.Count > 0)
+        EmailMatrix.RegisterDayEmailMatrix(8, customEmailIDs.ToArray());
+    }
 }
