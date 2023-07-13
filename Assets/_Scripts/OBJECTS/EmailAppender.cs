@@ -31,6 +31,14 @@ public class EmailAppender
         return result;
     }
 
+    public string AppendEmailForCustomEmailsManager(string npcEmailID, string playerReplyBody) 
+    {
+        string npcEmailBody = GameManager.emailDataManager.GetEmailByID(npcEmailID).Get(EmailFields.Body);
+        string result = AppendEmailBtoA(playerReplyBody, npcEmailBody);
+        editedEmails.Add(npcEmailID, result);
+        return result;
+    }
+
     public string RegisterNewEditedEmail(string npcEmailID, string npcEmailBody)
     {
         string playerReplyID = EmailMatrix.GetPlayerReplyByEmailID(npcEmailID);

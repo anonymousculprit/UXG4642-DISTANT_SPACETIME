@@ -12,7 +12,7 @@ public class EmailReaderPrefab : MonoBehaviour
     public TextMeshProUGUI subjectLine;
     public TextMeshProUGUI authorLine, dateLine, bodyText, playerTemplateText;
     public TMP_InputField playerTypingText;
-    public GameObject replyButton, submitButton;
+    public GameObject replyButton, submitButton, selectTypingTextButton;
     private GameObject playerTypingGO, playerTemplateGO;
 
     public void Start()
@@ -45,29 +45,42 @@ public class EmailReaderPrefab : MonoBehaviour
         playerTypingGO.SetActive(false);
         replyButton.SetActive(false);
         submitButton.SetActive(false);
+        selectTypingTextButton.SetActive(false);
     }
     public void WriteReply()
     {
         ClearReader();
 
-        Email emailData = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.playerReplyID);
+        if (GameManager.instance.GetDay() == 7)
+        {
+            Email currentEmail = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.currentEmailID);
 
-        subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
-        authorLine.text = emailData.GetFieldData(EmailFields.Author);
-        dateLine.text = emailData.GetFieldData(EmailFields.Date);
-        playerTemplateText.text = emailData.GetFieldData(EmailFields.Body);
-        //submitButton.SetActive(true);
+            subjectLine.text = "RE: " + currentEmail.Get(EmailFields.Subject);
+            authorLine.text = "Dylon Smith";
+            dateLine.text = currentEmail.Get(EmailFields.Date);
+            playerTypingText.Select();
+        }
+        else
+        {
+            Email emailData = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.playerReplyID);
+
+            subjectLine.text = emailData.GetFieldData(EmailFields.Subject);
+            authorLine.text = emailData.GetFieldData(EmailFields.Author);
+            dateLine.text = emailData.GetFieldData(EmailFields.Date);
+            playerTemplateText.text = emailData.GetFieldData(EmailFields.Body);
+            playerTemplateGO.SetActive(true);
+            playerTypingGO.SetActive(true);
+            if (!Options.GetAutoCompleteEmail()) playerTypingText.Select();
+        }
         playerTemplateGO.SetActive(true);
         playerTypingGO.SetActive(true);
-        if (!Options.GetAutoCompleteEmail()) playerTypingText.Select();
+        selectTypingTextButton.SetActive(true);
     }
     public void SubmitPlayerReply()
     {
-        // TODO: submit text/save in system?
+        CustomEmailsManager.instance.SaveEmail();
         EmailMatrix.MarkReplyByPlayerReplyID(EmailReaderDisplay.instance.playerReplyID);
         EmailReaderDisplay.instance.ShowEmailSentUI();
         ClearReader();
-        // TODO: add player text to email, disable reply button on this email
     }
-    public void UpdateTimeNow() => dateLine.text = System.DateTime.Now.ToString("MM/dd/yyyy");
 }

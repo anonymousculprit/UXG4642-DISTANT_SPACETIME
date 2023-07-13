@@ -28,7 +28,7 @@ public class EmailReaderDisplay : MonoBehaviour
 
     public void LoadReaderContents(string id, bool hasReply)
     {
-        bool addId = hasReply;
+        bool addId = hasReply ? true : GameManager.instance.GetDay() == 7 ? true : false;
         currentEmailID = id;
         playerReplyID = addId ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
 

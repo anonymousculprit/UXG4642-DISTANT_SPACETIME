@@ -19,6 +19,7 @@ public class EmailDataManager
     public List<Email> GetAllEmails() => emails;
     public Email GetEmailByID(string id) => emails.Find(x => x.Get(EmailFields.ID) == id);
     public List<Email> GetEmailsByField(string field, string value) => emails.FindAll(x => x.Get(field) == value);
+    public void AddEmail(Email email) => emails.Add(email);
     public void CheckForIDDuplicates()
     {
         int errorsFound = 0;

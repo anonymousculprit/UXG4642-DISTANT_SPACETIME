@@ -27,21 +27,30 @@ public class EmailBodyInput : MonoBehaviour
 
     public void OnValueChanged()
     {
-        CheckToAddMark();
-
-        if (playerText.text == templateText.text)
-            submitButton.SetActive(true);
+        if (GameManager.instance.GetDay() > 6)
+        {
+            templateText.text = playerText.text;
+            if (playerText.text.Length > 0) submitButton.SetActive(true);
+            return;
+        }
         else
-            submitButton.SetActive(false);
+        {
+            CheckToAddMark();
+
+            if (playerText.text == templateText.text)
+                submitButton.SetActive(true);
+            else
+                submitButton.SetActive(false);
+        }
     }
 
-    public void TypingNoise()
+    void TypingNoise()
     {
         if (Input.anyKeyDown && !(Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2)))
             SFXManager.instance.PlayTypingNoise();
     }
 
-    public void CheckToAddMark()
+    void CheckToAddMark()
     {
         highlightText.text = playerText.text;
         bool highlightActive = false;
@@ -61,4 +70,5 @@ public class EmailBodyInput : MonoBehaviour
     }
 
     private void Update() => TypingNoise();
+    public void SelectText() => playerText.Select();
 }

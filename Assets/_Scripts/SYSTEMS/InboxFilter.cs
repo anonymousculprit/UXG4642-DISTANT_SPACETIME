@@ -51,7 +51,6 @@ public class InboxFilter : MonoBehaviour
 
             if (!EmailMatrix.EmailIDHasMetRequirements(emailID))
             {
-                Debug.Log("emailID " + emailID + " has not met requirements!");
                 emailRemovalList.Add(email);
                 if (EmailMatrix.EmailIDHasPlayerReply(emailID)) emailRemovalList.Add(GetPlayerReply(emailID));
                 if (EmailMatrix.EmailIDHasNPCReply(emailID) && EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), EmailMatrix.GetNPCReplyByEmailID(emailID)))
@@ -89,7 +88,6 @@ public class InboxFilter : MonoBehaviour
         if (listAllEmails) { inbox.Reverse(); return; }
         RemoveAllFlaggedEmails();
         inbox.Reverse();
-        DEBUG_CheckAllEmailsInsideInbox();
         void RemoveAllFlaggedEmails()
         {
             if (emailRemovalList.Count > 0)

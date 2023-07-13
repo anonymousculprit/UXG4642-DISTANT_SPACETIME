@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public int GetDay() => day;
     public void EndDay()
     {
+        if (day == 7) CustomEmailsManager.instance.RegisterDayEmailsToMatrix();
         IncrementDay();
         SceneLoader.instance.TransitionToGameScene();
         SceneLoader.instance.FadeToBlack();
