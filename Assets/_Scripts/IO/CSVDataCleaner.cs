@@ -78,12 +78,14 @@ public class CSVDataCleaner
 
     public void CleanEmailResponseInput(string[] emailResponseReply)
     {
-        for (int i = 0; i < emailResponseReply.Length; i++) emailResponseReply[i] = emailResponseReply[i].Trim();
+        // if (emailResponseReply.Length >= 5) Debug.Log("requirements for " + emailResponseReply[1] + ": " + Utility.ParseForStringArray(emailResponseReply[4], ',')[0]);
         EmailMatrix.RegisterResponseToEmailRegistry(
             new EmailResponseReply(
                 email: emailResponseReply[1],
                 response: emailResponseReply[2],
-                reply: emailResponseReply.Length < 4 ? "" : emailResponseReply[3]
-            ));
+                reply: emailResponseReply[3],
+                requirements: emailResponseReply.Length >= 5 ? Utility.ParseForStringArray(emailResponseReply[4], ',') : null
+            ));;
+        ;
     }
 }

@@ -38,6 +38,7 @@ public class CSVReader
     {
         if (i >= line.Length) return null;
 
+        if (line[i] == config.delimiter) { i++; return ""; }
         if (line[i] != config.quotationMark)
             return ParseNotEscapedCell(line, ref i);
         else

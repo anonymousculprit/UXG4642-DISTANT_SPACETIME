@@ -38,6 +38,16 @@ public static class EmailMatrix
     public static bool PlayerHasRepliedToEmailID(string id) => ResponseToEmailRegistry.Find(x => x.npcEmail == id).replied;
     public static bool PlayerHasRepliedToNPCReplyID(string id) => ResponseToEmailRegistry.Find(x => x.npcReply == id).replied;
 
+    public static bool EmailIDHasMetRequirements(string id)
+    {
+        EmailResponseReply matrixEntry = ResponseToEmailRegistry.Find(x => x.npcEmail == id);
+        if (!matrixEntry.HasRequirements()) return true;
+
+        foreach (string requirementID in matrixEntry.requirements)
+            if (!PlayerHasRepliedToEmailID(requirementID)) return false;
+        return true;
+    }
+
     public static void MarkReplyByPlayerReplyID(string id) // haha this was longer than i thought because structs pass by value and not by ref :')
     {
         EmailResponseReply updatingEntry = ResponseToEmailRegistry.Find(x => x.playerReply == id);
@@ -47,20 +57,3 @@ public static class EmailMatrix
     }
 }
 
-public struct EmailResponseReply
-{
-    public string npcEmail { get; private set; }
-    public string playerReply { get; private set; }
-    public string npcReply { get; private set; }
-    public bool replied { get; private set; }
-
-    public EmailResponseReply(string email, string response, string reply)
-    {
-        this.npcEmail = email;
-        this.playerReply = response;
-        this.npcReply = reply;
-        replied = false;
-    }
-
-    public void PlayerHasReplied() { replied = true; }
-}

@@ -27,7 +27,7 @@ public class Email
         string output;
         data.TryGetValue(field, out output);
         if (string.IsNullOrEmpty(output)) output = "ERROR";
-         return output;
+        return output;
     }
 
     public string Get(string field) => GetFieldData(field);

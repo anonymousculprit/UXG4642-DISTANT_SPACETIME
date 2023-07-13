@@ -14,20 +14,17 @@ public class InboxFilter : MonoBehaviour
     List<Email> inbox = new();
     EmailAppender emailAppender = new();
 
-    private void Awake()
-    {
-        instance = this;
-    }
+    private void Awake() => instance = this;
 
     public void Init(int day)
     {
         keepPreviousDayEmails = GameManager.instance.keepPreviousDayEmails;
         listAllEmails = GameManager.instance.DEBUG_listAllEmails;
+
         if (keepPreviousDayEmails && day > 1)
-        {
             for (int i = 1; i < day; i++)
                 PopulateInboxByDay(i);
-        }
+
         PopulateInboxByDay(day);
         SortEmailsInInbox();
     }
@@ -44,71 +41,71 @@ public class InboxFilter : MonoBehaviour
     {
         List<Email> emailRemovalList = new();
 
+        if (inbox.Count == 0) return;
 
-        if (inbox.Count > 0)
-            foreach (Email email in inbox)
+        foreach (Email email in inbox)
+        {
+            if (email == null) continue;
+
+            string emailID = email.GetFieldData(EmailFields.ID);
+
+            if (!EmailMatrix.EmailIDHasMetRequirements(emailID))
             {
-                if (email == null) continue;
-                string emailID = email.GetFieldData(EmailFields.ID);
-
-                if (EmailMatrix.EmailIDHasPlayerReply(emailID))
-                {
-                    if (EmailMatrix.PlayerHasRepliedToEmailID(emailID))
-                    {
-                        Email npcReply;
-                        Email playerReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(emailID));
-                        if (EmailMatrix.EmailIDHasNPCReply(emailID))
-                        {
-                            npcReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(emailID));
-                            if (!npcReply.HasBeenEdited())
-                            {
-                                string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
-                                newBody = emailAppender.AppendEmailBtoA(npcReply.Get(EmailFields.Body), newBody);
-
-                                npcReply.ReplaceBodyText(newBody);
-                            }
-
-                            emailRemovalList.Add(playerReply);
-                            emailRemovalList.Add(email);
-                        }
-                        else
-                        {
-                            if (!playerReply.HasBeenEdited())
-                            {
-                                string newBody = emailAppender.AppendEmailBtoA(playerReply.Get(EmailFields.Body), email.Get(EmailFields.Body));
-                                playerReply.ReplaceBodyText(newBody);
-                                playerReply.MarkAsRead();
-                            }
-
-                            emailRemovalList.Add(email);
-                        }
-                        continue;
-                    }
-                    else
-                    {
-                        string pReplyID = EmailMatrix.GetPlayerReplyByEmailID(emailID);
-                        Email pReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == pReplyID);
-                        if (pReply != null) emailRemovalList.Add(pReply);
-
-                        if (EmailMatrix.EmailIDHasNPCReply(emailID)) 
-                        {
-                            string nReplyID = EmailMatrix.GetNPCReplyByEmailID(emailID);
-                            Email nReply = inbox.Find(x => x.GetFieldData(EmailFields.ID) == nReplyID);
-                            if (nReply != null) emailRemovalList.Add(nReply);
-                        }
-                    }
-                }
+                Debug.Log("emailID " + emailID + " has not met requirements!");
+                emailRemovalList.Add(email);
+                if (EmailMatrix.EmailIDHasPlayerReply(emailID)) emailRemovalList.Add(GetPlayerReply(emailID));
+                if (EmailMatrix.EmailIDHasNPCReply(emailID) && EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), EmailMatrix.GetNPCReplyByEmailID(emailID)))
+                    emailRemovalList.Add(GetNPCReply(emailID));
+                continue;
             }
 
-        if (listAllEmails) return;
-        if (emailRemovalList.Count > 0)
-            foreach (Email email in emailRemovalList)
-                inbox.Remove(email);
+            if (EmailMatrix.EmailIDHasPlayerReply(emailID))
+            {
+                if (EmailMatrix.PlayerHasRepliedToEmailID(emailID)) // operating under assumption that replies are in inbox
+                {
+                    bool hasNPCReply = EmailMatrix.EmailIDHasNPCReply(emailID);
+                    Email emailToEdit = hasNPCReply ? GetNPCReply(emailID) : GetPlayerReply(emailID);
 
+                    if (!emailToEdit.HasBeenEdited())
+                    {
+                        Email additionalAppend = hasNPCReply ? GetPlayerReply(emailID) : null;
+                        emailAppender.AssembleEmail(ref emailToEdit, email, additionalAppend);
+                        if (!hasNPCReply) emailToEdit.MarkAsRead();
+                    }
+
+                    emailRemovalList.Add(email);
+                    if (hasNPCReply) emailRemovalList.Add(GetPlayerReply(emailID));
+                }
+                else
+                {
+                    emailRemovalList.Add(GetPlayerReply(emailID));
+                    if (EmailMatrix.EmailIDHasNPCReply(emailID)) emailRemovalList.Add(GetNPCReply(emailID));
+                    //FlagEmailForRemovalByID(EmailMatrix.GetPlayerReplyByEmailID(emailID));
+                    //if (EmailMatrix.EmailIDHasNPCReply(emailID)) FlagEmailForRemovalByID(EmailMatrix.GetNPCReplyByEmailID(emailID));
+                }
+            }
+        }
+
+        if (listAllEmails) { inbox.Reverse(); return; }
+        RemoveAllFlaggedEmails();
         inbox.Reverse();
+        DEBUG_CheckAllEmailsInsideInbox();
+        void RemoveAllFlaggedEmails()
+        {
+            if (emailRemovalList.Count > 0)
+                foreach (Email email in emailRemovalList)
+                    inbox.Remove(email);
+        }
+        //void FlagEmailForRemovalByID(string id)
+        //{
+        //    Email flaggedEmail = inbox.Find(x => x.Get(EmailFields.ID) == id);
+        //    if (flaggedEmail != null) emailRemovalList.Add(flaggedEmail);
+        //}
+        Email GetNPCReply(string id) => inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(id));
+        Email GetPlayerReply(string id) => inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(id));
     }
 
-    public void CheckAllEmailsInsideInbox()
+    public void DEBUG_CheckAllEmailsInsideInbox()
     {
         foreach (Email email in inbox)
         {

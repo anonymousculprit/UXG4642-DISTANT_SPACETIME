@@ -48,4 +48,22 @@ public class EmailAppender
         sb.Append(a);
         return sb.ToString();
     }
+
+    public string AppendEmailBtoA(Email b, Email a) => AppendEmailBtoA(b.Get(EmailFields.Body), a.Get(EmailFields.Body));
+
+    public void AssembleEmail(ref Email emailToEdit, Email originalEmail, Email additionalAppend = null) 
+    {
+        string newBody = "";
+        if (additionalAppend == null)
+        {
+            newBody = AppendEmailBtoA(emailToEdit, originalEmail);
+        }
+        else
+        {
+            newBody = AppendEmailBtoA(additionalAppend, originalEmail);
+            newBody = AppendEmailBtoA(emailToEdit.Get(EmailFields.Body), newBody);
+        }
+
+        emailToEdit.ReplaceBodyText(newBody);
+    }
 }
