@@ -49,6 +49,7 @@ public class EmailReaderPrefab : MonoBehaviour
     }
     public void WriteReply()
     {
+        SFXManager.instance.Play("email_write");
         ClearReader();
 
         if (GameManager.instance.GetDay() == 7)

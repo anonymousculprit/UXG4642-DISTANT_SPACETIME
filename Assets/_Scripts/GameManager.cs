@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public event Announcement InitComplete;
-    public static void ClearInstance() => instance = null;
+    public static void ClearInstance() { instance = null; emailDataManager = new(); emailMatrixManager = new(); }
     private void Awake() => ManageInstance();
     public static EmailDataManager emailDataManager = new();
     public static EmailMatrixManager emailMatrixManager = new();
@@ -37,8 +37,18 @@ public class GameManager : MonoBehaviour
 
     void SceneLoadResponsibilities(Scene scene, LoadSceneMode mode)
     {
+        if (CurrentSceneIsMainMenu()) { KillSelf(); return; }
         InboxFilter.instance.Init(day);
         InitComplete?.Invoke();
+    }
+
+    bool CurrentSceneIsMainMenu() => SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0);
+    void KillSelf()
+    {
+        SceneManager.sceneLoaded -= SceneLoadResponsibilities; 
+        ClearInstance(); 
+        Destroy(gameObject); 
+        Destroy(this);
     }
 
     public void JumpToDay(int newDay) { day = newDay - 1; EndDay(); }
@@ -51,6 +61,7 @@ public class GameManager : MonoBehaviour
         IncrementDay();
         SceneLoader.instance.TransitionToGameScene();
         SceneLoader.instance.FadeToBlack();
+        SFXManager.instance.PlayEndDaySFX();
     }
 
     public void ManageInstance()

@@ -5,20 +5,26 @@ using UnityEngine;
 
 public class UnreadEmailDisplay : MonoBehaviour
 {
+    public static UnreadEmailDisplay instance;
     public TextMeshProUGUI text;
     int counter = 0;
+
+    private void Awake() => instance = this;
 
     public void OnEnable()
     {
         GameManager.instance.InitComplete += Init;
+        SceneLoader.instance.Loaded += NewEmailSFX;
     }
 
     public void OnDisable()
     {
         GameManager.instance.InitComplete -= Init;
+        SceneLoader.instance.Loaded -= NewEmailSFX;
     }
 
     public void Init() => SetCounter(InboxFilter.instance.GetUnreadEmailsCount());
+    public void NewEmailSFX() { if (counter > 0) SFXManager.instance.Play("logon_newemails"); }
 
     public void SetCounter(int i)
     {

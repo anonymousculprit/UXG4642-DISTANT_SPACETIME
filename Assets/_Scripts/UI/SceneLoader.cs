@@ -11,6 +11,7 @@ public class SceneLoader : MonoBehaviour
     public static SceneLoader instance;
     public event Announcement Loaded;
     int sceneToTransition;
+    bool waitForSFX = false;
 
     Animator transition;
 
@@ -21,6 +22,7 @@ public class SceneLoader : MonoBehaviour
         transition.speed = 0;
     }
 
+    public void WaitForSFX() => waitForSFX = true;
     public void TransitionToMainMenu() => SetSceneToTransitionTo(0);
     public void TransitionToGameScene() => SetSceneToTransitionTo(1);
     public void SetSceneToTransitionTo(int i) => sceneToTransition = i;
@@ -28,10 +30,15 @@ public class SceneLoader : MonoBehaviour
     public void FadeToBlack() { transition.SetTrigger("FadeToBlack"); transition.speed = 1; }
 
     public void ANIM_Loaded() => Loaded?.Invoke();
-    public void ANIM_TransitionToNextScene() => SceneManager.LoadScene(sceneToTransition);
     public void ANIM_ResetTriggers()
     {
         transition.ResetTrigger("FadeFromBlack");
         transition.ResetTrigger("FadeToBlack");
     }
+    public void ANIM_TransitionToNextScene() 
+    {
+        if (!waitForSFX) SceneManager.LoadScene(sceneToTransition);
+        else transition.speed = 0;
+    }
+    public void SFX_TransitionToNextScene() { SceneManager.LoadScene(sceneToTransition); }
 }

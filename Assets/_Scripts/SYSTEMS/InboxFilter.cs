@@ -18,6 +18,7 @@ public class InboxFilter : MonoBehaviour
 
     public void Init(int day)
     {
+        Debug.Log("init for filter");
         keepPreviousDayEmails = GameManager.instance.keepPreviousDayEmails;
         listAllEmails = GameManager.instance.DEBUG_listAllEmails;
 
@@ -79,8 +80,6 @@ public class InboxFilter : MonoBehaviour
                 {
                     emailRemovalList.Add(GetPlayerReply(emailID));
                     if (EmailMatrix.EmailIDHasNPCReply(emailID)) emailRemovalList.Add(GetNPCReply(emailID));
-                    //FlagEmailForRemovalByID(EmailMatrix.GetPlayerReplyByEmailID(emailID));
-                    //if (EmailMatrix.EmailIDHasNPCReply(emailID)) FlagEmailForRemovalByID(EmailMatrix.GetNPCReplyByEmailID(emailID));
                 }
             }
         }
@@ -94,22 +93,8 @@ public class InboxFilter : MonoBehaviour
                 foreach (Email email in emailRemovalList)
                     inbox.Remove(email);
         }
-        //void FlagEmailForRemovalByID(string id)
-        //{
-        //    Email flaggedEmail = inbox.Find(x => x.Get(EmailFields.ID) == id);
-        //    if (flaggedEmail != null) emailRemovalList.Add(flaggedEmail);
-        //}
         Email GetNPCReply(string id) => inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetNPCReplyByEmailID(id));
         Email GetPlayerReply(string id) => inbox.Find(x => x.GetFieldData(EmailFields.ID) == EmailMatrix.GetPlayerReplyByEmailID(id));
-    }
-
-    public void DEBUG_CheckAllEmailsInsideInbox()
-    {
-        foreach (Email email in inbox)
-        {
-            if (email != null)
-                Debug.Log("email: " + email.Get(EmailFields.ID));
-        }
     }
 
     public int GetUnreadEmailsCount()

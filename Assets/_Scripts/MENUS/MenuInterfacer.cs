@@ -21,7 +21,7 @@ public class MenuInterfacer : MonoBehaviour
     void SwapToPauseMenu() { ClearMenus(); pauseMenu.SetActive(true); }
     public void SwapToOptionsMenu() { ClearMenus(); optionsMenu.SetActive(true); }
     public void SwapToDayMenu() { ClearMenus(); dayMenu.SetActive(true); }
-    public void BackToMainMenu() { TurnMenuOff(); SceneLoader.instance.TransitionToMainMenu(); }
+    public void BackToMainMenu() { TurnMenuOff(); SceneLoader.instance.TransitionToMainMenu(); SceneLoader.instance.FadeToBlack(); }
     public void QuitGame() => Application.Quit();
 
     public void TurnMenuOn()

@@ -15,6 +15,6 @@ public class EmailSentDisplay : MonoBehaviour
 
     private void Start() => anim = gameObject.GetComponent<Animator>();
 
-    public void ShowPopup() => anim.SetTrigger("Play"); 
+    public void ShowPopup() { SFXManager.instance.Play("email_send");  anim.SetTrigger("Play"); }
     public void ANIM_ResetTrigger() => anim.ResetTrigger("Play");
 }

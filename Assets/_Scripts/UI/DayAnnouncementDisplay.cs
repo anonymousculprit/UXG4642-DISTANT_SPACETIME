@@ -20,6 +20,7 @@ public class DayAnnouncementDisplay : MonoBehaviour
 
     public void StartDay()
     {
+        SFXManager.instance.Play("logon_newday");
         dayAnnouncementText.text = "DAY " + GameManager.instance.GetDay();
         animator.SetTrigger("Play");
     }

@@ -63,7 +63,8 @@ public class EmailPrefab : MonoBehaviour
 
     public void OnClick()
     {
-        if (selectedEmail != null) selectedEmail.SetDeselected();
+        if (selectedEmail != null) { selectedEmail.SetDeselected(); SFXManager.instance.Play("emailreader_diff"); }
+        else { SFXManager.instance.Play("emailreader_new"); }
         selectedEmail = this;
         SetSelected();
         EmailReaderDisplay.instance.LoadReaderContents(emailID, hasReply);
@@ -74,7 +75,7 @@ public class EmailPrefab : MonoBehaviour
         EmailReaderDisplay.instance.UnselectingEmail += SetDeselectedByEmailDisplay;
         ChangeColor(selected);
 
-        unreadIconGO.SetActive(false);
+        if (unreadIconGO.activeInHierarchy) { unreadIconGO.SetActive(false); UnreadEmailDisplay.instance.DecreaseCounter(); }
         replyIconGO.SetActive(true);
 
         if (hasReply) iconImg.sprite = replyIcon;
@@ -95,8 +96,6 @@ public class EmailPrefab : MonoBehaviour
     {
         EmailReaderDisplay.instance.UnselectingEmail -= SetDeselectedByEmailDisplay;
         ChangeColor(read);
-        
-        // TODO: Add player written text to top of email body.
         hasReply = false;
     }
 

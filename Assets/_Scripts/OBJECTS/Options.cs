@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Options
 {
     public static event Announcement UpdateSFX, UpdateAmbience, UpdateAllAudio;
-    static float masterVol = 1;
+    static float masterVol = 0.5f;
     static float ambienceVol = 1;
     static float sfxVol = 1;
     static bool masterMuted, ambienceMuted, sfxMuted;

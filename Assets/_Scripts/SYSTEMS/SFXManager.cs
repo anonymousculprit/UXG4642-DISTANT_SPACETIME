@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,28 +6,57 @@ using UnityEngine;
 public class SFXManager : MonoBehaviour
 {
     public static SFXManager instance;
-    public AudioSource clicking, typing;
+    [SerializeField]public List<SFXEntry> allSFX = new();
     public float rangeValueForTypingNoises = 0.25f;
 
     private void Awake()
     {
         instance = this;
+        RegisterAllSFX();
     }
 
-    private void Update()
+    public void RegisterAllSFX()
     {
-        if (Input.GetMouseButtonDown(0)) PlayClickingNoise();
+        for (int i = 0; i < allSFX.Count; i++)
+        {
+            AudioSource source = gameObject.AddComponent<AudioSource>();
+            source.clip = allSFX[i].clip;
+            source.playOnAwake = false;
+            allSFX[i].RegisterSource(source);
+        }
     }
 
-    public void PlayClickingNoise()
+    public AudioSource GetSFX(string clipName) => allSFX.Find(x => x.clipName == clipName).source;
+    public AudioClip GetSFXClip(string clipName) => allSFX.Find(x => x.clipName == clipName).clip;
+    public void Play(string clipName) => allSFX.Find(x => x.clipName == clipName).Play();
+    public void Play(string clipName, float pitchValue)
     {
-        clicking.Play();
+        AudioSource sfx = GetSFX(clipName);
+        sfx.pitch = pitchValue;
+        Play(clipName);
     }
 
-    public void PlayTypingNoise()
+    private void Update() { if (Input.GetMouseButtonDown(0)) Play("mouseclick"); }
+    public void PlayTypingNoise() => Play("keyboardtype", 1 + UnityEngine.Random.Range(-rangeValueForTypingNoises, rangeValueForTypingNoises));
+    public void PlayEndDaySFX() => StartCoroutine(WaitingForSFXComplete("logoff_endday"));
+
+    IEnumerator WaitingForSFXComplete(string clipName)
     {
-        typing.pitch = 1 + Random.Range(-rangeValueForTypingNoises, rangeValueForTypingNoises);
-        typing.Play();
+        SceneLoader.instance.WaitForSFX();
+        AudioClip clip = GetSFXClip(clipName);
+        Play(clipName);
+        yield return new WaitForSeconds(clip.length);
+        SceneLoader.instance.SFX_TransitionToNextScene();
     }
+}
 
+[Serializable]
+public class SFXEntry
+{
+    public AudioClip clip;
+    public string clipName;
+    [HideInInspector] public AudioSource source;
+
+    public void RegisterSource(AudioSource source) => this.source = source;
+    public void Play() => source.PlayOneShot(clip);
 }
