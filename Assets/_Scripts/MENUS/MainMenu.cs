@@ -8,17 +8,21 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
+    private void Start() => SceneLoader.instance.FadeFromBlack();
+
     public void StartGame()
     {
-        GameManager.ClearInstance();
+        ResetGame();
         SceneLoader.instance.TransitionToGameScene();
         SceneLoader.instance.FadeToBlack();
     }
 
     public void QuitGame() => Application.Quit();
+    public void ShowOptions() => MenuInterfacer.instance.MainMenu_TurnMenuOn();
 
-    public void ShowOptions()
+    void ResetGame()
     {
-        // unimplemented.
+        GameManager.ClearInstance();
+        EmailMatrix.ClearInstance();
     }
 }

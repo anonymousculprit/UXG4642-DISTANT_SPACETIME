@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class OptionsMenu : MonoBehaviour
 {
     public Slider masterVolume, ambienceVolume, sfxVolume;
-    public Button muteMaster, muteAmbience, muteSFX, toggleDisplayMode, cheatEnable;
+    public Button muteMaster, muteAmbience, muteSFX, cheatEnable;
     public TextMeshProUGUI masterVolText, ambienceVolText, sfxVolText;
     [Header("Sprite References")]
     public Sprite muteOff;
@@ -56,7 +56,6 @@ public class OptionsMenu : MonoBehaviour
     
     public void UpdateMasterMute()
     {
-        Debug.Log("MasterVolume: " + Options.GetMasterVolumeRaw());
         if (Options.GetMasterMute())
         {
             float volume = Options.GetMasterVolumeRaw();

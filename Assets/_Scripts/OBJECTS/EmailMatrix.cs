@@ -7,6 +7,7 @@ public static class EmailMatrix
     public static Dictionary<int, string[]> DayToEmailRegistry = new();
     public static List<EmailResponseReply> ResponseToEmailRegistry = new();
 
+    public static void ClearInstance() { DayToEmailRegistry = new(); ResponseToEmailRegistry = new(); }
     public static void RegisterDayEmailMatrix(int day, string[] emailID) => DayToEmailRegistry.Add(day, emailID);
     public static void RegisterResponseToEmailRegistry(EmailResponseReply entry) => ResponseToEmailRegistry.Add(entry);
     public static string[] GetEmailsByDay(int day)
