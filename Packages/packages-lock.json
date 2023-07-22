@@ -1,9 +1,9 @@
 {
   "dependencies": {
     "com.noesis.noesisgui": {
-      "version": "file:D:/Holding Cell/sfsdfsdgdh",
+      "version": "file:NoesisGUI",
       "depth": 0,
-      "source": "local",
+      "source": "embedded",
       "dependencies": {
         "com.unity.inputsystem": "1.1.1"
       }
