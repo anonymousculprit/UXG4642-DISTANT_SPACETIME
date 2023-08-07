@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public int customDay = 1;
     int day = 1;
     int dayValidation = 0;
+    bool mainStoryClearInPlaythrough = false;
 
     private void Start()
     {
@@ -42,6 +43,8 @@ public class GameManager : MonoBehaviour
         InboxFilter.instance.Init(day);
         dayValidation = day;
         InitComplete?.Invoke();
+        SceneLoader.instance.Loaded += CursorActive;
+        CheckForMainStoryClear();
     }
 
     bool CurrentSceneIsMainMenu() => SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0);
@@ -53,10 +56,12 @@ public class GameManager : MonoBehaviour
         Destroy(this);
     }
 
-    public void JumpToDay(int newDay) { day = newDay - 1; EndDay(); }
+    void CheckForMainStoryClear() { if (day == 8) mainStoryClearInPlaythrough = true; }
+
+    public void JumpToDay(int newDay) { day = newDay - 1; dayValidation = day; EndDay(); }
     public void IncrementDay() => day = dayValidation + 1;
-    public void StartDay() { SceneLoader.instance.FadeFromBlack(); SceneLoader.instance.Loaded += CursorActive; }
     public int GetDay() => day;
+    public bool FinishedMainStory() => mainStoryClearInPlaythrough;
     public void EndDay()
     {
         if (day == 7) CustomEmailsManager.instance.RegisterDayEmailsToMatrix();

@@ -59,7 +59,6 @@ public class EmailReaderPrefab : MonoBehaviour
             subjectLine.text = "RE: " + currentEmail.Get(EmailFields.Subject);
             authorLine.text = "Dylon Smith";
             dateLine.text = currentEmail.Get(EmailFields.Date);
-            playerTypingText.Select();
         }
         else
         {
@@ -69,19 +68,43 @@ public class EmailReaderPrefab : MonoBehaviour
             authorLine.text = emailData.GetFieldData(EmailFields.Author);
             dateLine.text = emailData.GetFieldData(EmailFields.Date);
             playerTemplateText.text = emailData.GetFieldData(EmailFields.Body);
-            playerTemplateGO.SetActive(true);
             playerTypingGO.SetActive(true);
-            if (!Options.GetAutoCompleteEmail()) playerTypingText.Select();
         }
         playerTemplateGO.SetActive(true);
         playerTypingGO.SetActive(true);
+        if (SelectText()) playerTypingText.Select();
         selectTypingTextButton.SetActive(true);
     }
+
+    bool SelectText()
+    {
+        if (GameManager.instance.GetDay() == 7) return true;
+        if (!Options.GetAutoCompleteEmail()) return true;
+        return false;
+    }
+
     public void SubmitPlayerReply()
     {
         CustomEmailsManager.instance.SaveEmail();
         EmailMatrix.MarkReplyByPlayerReplyID(EmailReaderDisplay.instance.playerReplyID);
+        UpdateEmailPrefab();
         EmailReaderDisplay.instance.ShowEmailSentUI();
         ClearReader();
+    }
+
+    void UpdateEmailPrefab()
+    {
+        Email currentEmail = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.currentEmailID);
+        EmailPrefab prefab = InboxDisplay.instance.GetEmailPrefab(currentEmail);
+
+        if (GameManager.instance.GetDay() == 7)
+        {
+            prefab.UpdateEmailPrefabAfterReply("RE: " + currentEmail.Get(EmailFields.Subject), "Dylon Smith");
+        }
+        else
+        {
+            Email emailData = GameManager.emailDataManager.GetEmailByID(EmailReaderDisplay.instance.playerReplyID);
+            prefab.UpdateEmailPrefabAfterReply(emailData.GetFieldData(EmailFields.Subject), emailData.GetFieldData(EmailFields.Author));
+        }
     }
 }

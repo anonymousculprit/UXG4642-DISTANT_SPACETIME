@@ -15,9 +15,12 @@ public class EmailAppender
 
     public bool EmailNeedsFormattingForToday(string id)
     {
-        if (EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), id) && EmailMatrix.PlayerHasRepliedToEmailID(id))
-            return true;
-        else return false;
+        if (EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), id))
+        {
+            if (GameManager.instance.GetDay() == 7 && GameManager.instance.FinishedMainStory()) return false;
+            if (EmailMatrix.PlayerHasRepliedToEmailID(id)) return true;
+        }
+        return false;
     }
 
     public string AppendEmailForEmailReader(string id, string body)

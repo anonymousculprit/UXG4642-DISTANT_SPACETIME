@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipDescription: Pause the game.
-  waitForSeconds: 3
+  waitForSeconds: 1
   fadeTime: 0.5
   tooltipGO: {fileID: 2012064368}
   tooltipCanvas: {fileID: 1197763940}
@@ -3218,7 +3218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipDescription: Compose a reply.
-  waitForSeconds: 3
+  waitForSeconds: 1
   fadeTime: 0.5
   tooltipGO: {fileID: 2012064368}
   tooltipCanvas: {fileID: 1197763940}
@@ -10974,7 +10974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipDescription: Log out of your email client, and move onto the next day.
-  waitForSeconds: 3
+  waitForSeconds: 1
   fadeTime: 0.5
   tooltipGO: {fileID: 2012064368}
   tooltipCanvas: {fileID: 1197763940}
@@ -11278,7 +11278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tooltipDescription: Send your reply.
-  waitForSeconds: 3
+  waitForSeconds: 1
   fadeTime: 0.5
   tooltipGO: {fileID: 2012064368}
   tooltipCanvas: {fileID: 1197763940}
@@ -13043,7 +13043,7 @@ MonoBehaviour:
   highlightText: {fileID: 60754703}
   playerText: {fileID: 2012447159}
   submitButton: {fileID: 1713445819}
-  highlightColor: {r: 0.9882353, g: 0.7058824, b: 0.41960785, a: 0.60784316}
+  highlightColor: {r: 0.9882353, g: 0.4378174, b: 0.41960785, a: 0.60784316}
 --- !u!1 &2045713782
 GameObject:
   m_ObjectHideFlags: 0

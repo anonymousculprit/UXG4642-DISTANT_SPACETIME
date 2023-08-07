@@ -63,6 +63,7 @@ public class InboxFilter : MonoBehaviour
             {
                 if (EmailMatrix.PlayerHasRepliedToEmailID(emailID)) // operating under assumption that replies are in inbox
                 {
+                    if (GameManager.instance.GetDay() == 7 && EmailMatrix.EmailIsFromToday(7, emailID) && GameManager.instance.FinishedMainStory()) continue;
                     bool hasNPCReply = EmailMatrix.EmailIDHasNPCReply(emailID);
                     Email emailToEdit = hasNPCReply ? GetNPCReply(emailID) : GetPlayerReply(emailID);
 

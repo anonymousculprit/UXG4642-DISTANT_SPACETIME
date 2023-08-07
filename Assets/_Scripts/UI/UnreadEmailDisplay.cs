@@ -14,7 +14,6 @@ public class UnreadEmailDisplay : MonoBehaviour
     public void OnEnable()
     {
         GameManager.instance.InitComplete += Init;
-        SceneLoader.instance.Loaded += NewEmailSFX;
     }
 
     public void OnDisable()
@@ -23,7 +22,11 @@ public class UnreadEmailDisplay : MonoBehaviour
         SceneLoader.instance.Loaded -= NewEmailSFX;
     }
 
-    public void Init() => SetCounter(InboxFilter.instance.GetUnreadEmailsCount());
+    public void Init()
+    {
+        SetCounter(InboxFilter.instance.GetUnreadEmailsCount());
+        SceneLoader.instance.Loaded += NewEmailSFX;
+    }
     public void NewEmailSFX() { if (counter > 0) SFXManager.instance.Play("logon_newemails"); }
 
     public void SetCounter(int i)

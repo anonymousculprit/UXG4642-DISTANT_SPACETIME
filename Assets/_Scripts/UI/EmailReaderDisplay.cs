@@ -28,11 +28,13 @@ public class EmailReaderDisplay : MonoBehaviour
 
     public void LoadReaderContents(string id, bool hasReply)
     {
-        bool addId = hasReply ? true : GameManager.instance.GetDay() == 7 ? true : false;
         currentEmailID = id;
-        playerReplyID = addId ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
+        Email email = GameManager.emailDataManager.GetEmailByID(currentEmailID);
 
-        Email email = GameManager.emailDataManager.GetEmailByID(id);
+        bool trackingPlayerReplyID = hasReply ? true : false;
+        playerReplyID = trackingPlayerReplyID ? EmailMatrix.GetPlayerReplyByEmailID(id) : "";
+        bool showReplyButton = ShowReplyButton(trackingPlayerReplyID);
+
 
         string bodyText = email.GetFieldData(EmailFields.Body);
         if (emailAppender.EmailNeedsFormattingForToday(id)) bodyText = emailAppender.AppendEmailForEmailReader(id, bodyText);
@@ -42,7 +44,7 @@ public class EmailReaderDisplay : MonoBehaviour
             author: email.GetFieldData(EmailFields.Author),
             date: email.GetFieldData(EmailFields.Date),
             body: bodyText,
-            reply: addId);
+            reply: showReplyButton);
 
         email.MarkAsRead();
     }
@@ -59,5 +61,19 @@ public class EmailReaderDisplay : MonoBehaviour
         currentEmailID = "";
         playerReplyID = "";
         emailReaderPrefabClass.ClearReader();
+    }
+
+    bool ShowReplyButton(bool defaultState)
+    {
+        if (GameManager.instance.GetDay() == 7)
+        {
+            if (EmailMatrix.EmailIsFromToday(7, currentEmailID))
+            {
+                if (!EmailMatrix.EmailIDHasPlayerReply(currentEmailID)) return true;
+                if (GameManager.instance.FinishedMainStory()) return false;
+                return false;
+            }
+        }
+        return defaultState;
     }
 }

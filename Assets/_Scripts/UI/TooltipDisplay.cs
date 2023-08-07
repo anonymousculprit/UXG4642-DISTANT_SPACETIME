@@ -45,8 +45,11 @@ public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             Vector2 displayPos = Input.mousePosition;
 
-            float screenTop = tooltipCanvas.rect.height;
-            float screenRight = tooltipCanvas.rect.width;
+            float screenTop = Screen.height;
+            float screenRight = Screen.width;
+
+            float screenToCanvasRatio_Height = screenTop / tooltipCanvas.rect.height;
+            float screenToCanvasRatio_Width = screenRight / tooltipCanvas.rect.width;
 
             float halfOfTooltipWidth = tt_PanelRTransform.rect.width / 2;
             float halfOfTooltipHeight = tt_PanelRTransform.rect.height / 2;
@@ -66,7 +69,7 @@ public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             if (displayPos.y < halfOfTooltipHeight )
                 displayPos.y = halfOfTooltipHeight;
 
-            tt_PanelRTransform.anchoredPosition = displayPos;
+            tt_PanelRTransform.anchoredPosition = new Vector2(displayPos.x / screenToCanvasRatio_Width, displayPos.y / screenToCanvasRatio_Height);
         }
     }
 

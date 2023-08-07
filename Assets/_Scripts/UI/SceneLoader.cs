@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
     Animator transition;
 
     private void Awake() => instance = this;
+
     private void OnEnable()
     {
         transition = gameObject.GetComponent<Animator>();
@@ -29,7 +30,7 @@ public class SceneLoader : MonoBehaviour
     public void FadeFromBlack() { transition.SetTrigger("FadeFromBlack"); transition.speed = 1; }
     public void FadeToBlack() { transition.SetTrigger("FadeToBlack"); transition.speed = 1; }
 
-    public void ANIM_Loaded() => Loaded?.Invoke();
+    public void ANIM_Loaded() { Loaded?.Invoke(); Debug.Log("loaded."); }
     public void ANIM_ResetTriggers()
     {
         transition.ResetTrigger("FadeFromBlack");

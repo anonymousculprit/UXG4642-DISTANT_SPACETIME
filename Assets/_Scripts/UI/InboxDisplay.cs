@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class InboxDisplay : MonoBehaviour
 {
+    public static InboxDisplay instance;
     public GameObject emailPrefab, emailContainer, canvas;
     bool canReplyToPreviousDayEmails;
+    List<EmailPrefab> emailPrefabs = new();
+
+    private void Awake() => instance = this;
 
     public void OnEnable()
     {
@@ -38,7 +42,8 @@ public class InboxDisplay : MonoBehaviour
                 subject: email.GetFieldData(EmailFields.Subject),
                 author: email.GetFieldData(EmailFields.Author),
                 reply: CheckForShowReply(id)
-                ); 
+                );
+            emailPrefabs.Add(newEmailClass);
         }
 
         bool CheckForShowReply(string id)
@@ -54,5 +59,6 @@ public class InboxDisplay : MonoBehaviour
         }
     }
 
+    public EmailPrefab GetEmailPrefab(Email email) => emailPrefabs.Find(x => x.emailID == email.Get(EmailFields.ID));
 
 }

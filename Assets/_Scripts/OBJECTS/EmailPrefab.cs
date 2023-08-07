@@ -37,6 +37,13 @@ public class EmailPrefab : MonoBehaviour
         ShortenEmailDisplay(subject, author);
     }
 
+    public void UpdateEmailPrefabAfterReply(string subject, string author)
+    {
+        this.subject.text = subject;
+        this.author.text = author;
+        ShortenEmailDisplay(subject, author);
+    }
+
     void ShortenEmailDisplay(string subject, string author)
     {
         if (subject.Length > subjectLineMaxCharacters) this.subject.text = subject.Substring(0, subjectLineMaxCharacters) + "...";
