@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public string tooltipDescription;
-    public float waitForSeconds = 3;
+    public float waitForSeconds = 1;
     public float fadeTime = 0.5f;
     public GameObject tooltipGO;
     public RectTransform tooltipCanvas;
@@ -97,6 +97,8 @@ public class TooltipDisplay : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         tt_Panel.color = col_panelFade;
         tt_Text.color = col_textFade;
     }
+
+    public void OnDisable() => ResetTooltip();
 
     public void OnPointerEnter(PointerEventData eventData) => StartCoroutine(ShowTooltip());
     public void OnPointerExit(PointerEventData eventData) => ResetTooltip();

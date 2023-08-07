@@ -15,10 +15,10 @@ public class DistanceDisplay : MonoBehaviour
     {
         int i = GameManager.instance.GetDay();
 
-        if (i <= distanceTextPerDay.Length) distanceText.text = distanceTextPerDay[i-1];
+        if (BeyondStoryTimeframe(i)) UsePresetNumbers(i);
         else if (i > 100)
         {
-            if (Random.Range(0,1) >= chanceOfFakeNumber)
+            if (Random.Range(0, 1f) >= chanceOfFakeNumber)
             {
                 System.Random rand = new System.Random();
                 int j = rand.Next();
@@ -31,7 +31,7 @@ public class DistanceDisplay : MonoBehaviour
         }
         else
         {
-            if (Random.Range(0, 1) >= chanceOfFakeNumber)
+            if (Random.Range(0, 1f) >= chanceOfFakeNumber)
             {
                 distanceText.text = (i - distanceTextPerDay.Length).ToString() + " LY";
             }
@@ -41,4 +41,7 @@ public class DistanceDisplay : MonoBehaviour
             }
         }
     }
+
+    bool BeyondStoryTimeframe(int i) => i <= distanceTextPerDay.Length;
+    void UsePresetNumbers(int i) { distanceText.text = distanceTextPerDay[i - 1]; }
 }

@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public bool customDayInput = false;
     public int customDay = 1;
     int day = 1;
+    int dayValidation = 0;
 
     private void Start()
     {
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentSceneIsMainMenu()) { KillSelf(); return; }
         InboxFilter.instance.Init(day);
+        dayValidation = day;
         InitComplete?.Invoke();
     }
 
@@ -52,8 +54,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void JumpToDay(int newDay) { day = newDay - 1; EndDay(); }
-    public void IncrementDay() => day++;
-    public void StartDay() => SceneLoader.instance.FadeFromBlack();
+    public void IncrementDay() => day = dayValidation + 1;
+    public void StartDay() { SceneLoader.instance.FadeFromBlack(); SceneLoader.instance.Loaded += CursorActive; }
     public int GetDay() => day;
     public void EndDay()
     {
@@ -62,6 +64,7 @@ public class GameManager : MonoBehaviour
         SceneLoader.instance.TransitionToGameScene();
         SceneLoader.instance.FadeToBlack();
         SFXManager.instance.PlayEndDaySFX();
+        CursorLock();
     }
 
     public void ManageInstance()
@@ -75,6 +78,9 @@ public class GameManager : MonoBehaviour
         }
         if (instance != this) Destroy(gameObject);
     }
+
+    public void CursorLock() { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
+    public void CursorActive() { Cursor.lockState = CursorLockMode.None; Cursor.visible = true; SceneLoader.instance.Loaded -= CursorActive; }
 }
 
 
