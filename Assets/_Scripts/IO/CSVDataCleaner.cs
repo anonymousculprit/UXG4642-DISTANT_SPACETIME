@@ -78,7 +78,6 @@ public class CSVDataCleaner
 
     public void CleanEmailResponseInput(string[] emailResponseReply)
     {
-        // if (emailResponseReply.Length >= 5) Debug.Log("requirements for " + emailResponseReply[1] + ": " + Utility.ParseForStringArray(emailResponseReply[4], ',')[0]);
         EmailMatrix.RegisterResponseToEmailRegistry(
             new EmailResponseReply(
                 email: emailResponseReply[1],

@@ -54,7 +54,7 @@ public class InboxFilter : MonoBehaviour
             {
                 emailRemovalList.Add(email);
                 if (EmailMatrix.EmailIDHasPlayerReply(emailID)) emailRemovalList.Add(GetPlayerReply(emailID));
-                if (EmailMatrix.EmailIDHasNPCReply(emailID) && EmailMatrix.EmailIsFromToday(GameManager.instance.GetDay(), EmailMatrix.GetNPCReplyByEmailID(emailID)))
+                if (EmailMatrix.EmailIDHasNPCReply(emailID) && EmailMatrix.EmailIsInsideInboxFilter(GameManager.instance.GetDay(), EmailMatrix.GetNPCReplyByEmailID(emailID)))
                     emailRemovalList.Add(GetNPCReply(emailID));
                 continue;
             }
@@ -79,8 +79,8 @@ public class InboxFilter : MonoBehaviour
                 }
                 else
                 {
-                    emailRemovalList.Add(GetPlayerReply(emailID));
-                    if (EmailMatrix.EmailIDHasNPCReply(emailID)) emailRemovalList.Add(GetNPCReply(emailID));
+                    Email pReply = GetPlayerReply(emailID); emailRemovalList.Add(pReply);
+                    if (EmailMatrix.EmailIDHasNPCReply(emailID) && EmailMatrix.EmailIsInsideInboxFilter(GameManager.instance.GetDay(), EmailMatrix.GetNPCReplyByEmailID(emailID))) emailRemovalList.Add(GetNPCReply(emailID));
                 }
             }
         }

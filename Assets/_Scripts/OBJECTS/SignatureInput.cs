@@ -10,27 +10,28 @@ using UnityEngine.EventSystems;
 
 public class SignatureInput : MonoBehaviour
 {
+    public static SignatureInput instance;
+
+    public event Announcement ShowSubmitButton;
     public TextMeshProUGUI templateText, highlightText;
     public TMP_InputField playerText;
     public GameObject submitButton;
     public Color highlightColor;
 
-    private void OnEnable()
-    {
-        if (Options.GetAutoCompleteEmail())
-        {
-            playerText.text = templateText.text;
-            submitButton.SetActive(true);
-            EventSystem.current.SetSelectedGameObject(null);
-        }
-    }
+    private void Awake() => instance = this;
+
+    public void SelectInputField() => playerText.Select();
 
     public void OnValueChanged()
     {
         CheckToAddMark();
 
         if (playerText.text == templateText.text)
-        { submitButton.SetActive(true); EventSystem.current.SetSelectedGameObject(null); }
+        {
+            ShowSubmitButton?.Invoke();
+            playerText.interactable = false;
+            EventSystem.current.SetSelectedGameObject(null);
+        }
         else
             submitButton.SetActive(false);
     }

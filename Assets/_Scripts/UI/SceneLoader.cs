@@ -25,12 +25,13 @@ public class SceneLoader : MonoBehaviour
 
     public void WaitForSFX() => waitForSFX = true;
     public void TransitionToMainMenu() => SetSceneToTransitionTo(0);
-    public void TransitionToGameScene() => SetSceneToTransitionTo(1);
+    public void TransitionToContractScene() => SetSceneToTransitionTo(1);
+    public void TransitionToGameScene() => SetSceneToTransitionTo(2);
     public void SetSceneToTransitionTo(int i) => sceneToTransition = i;
     public void FadeFromBlack() { transition.SetTrigger("FadeFromBlack"); transition.speed = 1; }
     public void FadeToBlack() { transition.SetTrigger("FadeToBlack"); transition.speed = 1; }
 
-    public void ANIM_Loaded() { Loaded?.Invoke(); Debug.Log("loaded."); }
+    public void ANIM_Loaded() { Loaded?.Invoke(); }
     public void ANIM_ResetTriggers()
     {
         transition.ResetTrigger("FadeFromBlack");

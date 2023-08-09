@@ -13272,8 +13272,8 @@ MonoBehaviour:
   keepPreviousDayEmails: 1
   canReplyToPreviousDayEmails: 0
   DEBUG_listAllEmails: 0
-  customDayInput: 0
-  customDay: 1
+  customDayInput: 1
+  customDay: 3
 --- !u!114 &2072836884
 MonoBehaviour:
   m_ObjectHideFlags: 0

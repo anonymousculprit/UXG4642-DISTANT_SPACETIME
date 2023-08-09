@@ -25,6 +25,13 @@ public static class EmailMatrix
         return emailsSearchable.Contains(emailID);
     }
 
+    public static bool EmailIsInsideInboxFilter(int day, string emailID)
+    {
+        for (int i = 1; i < day; i++)
+            if (EmailIsFromToday(i, emailID)) return true;
+        return EmailIsFromToday(day, emailID);
+    }
+
     public static bool EmailIDIsNPCReply(string id) => !string.IsNullOrEmpty(ResponseToEmailRegistry.Find(x => x.npcReply == id).npcReply);
     public static bool EmailIDIsPlayerReply(string id) => !string.IsNullOrEmpty(ResponseToEmailRegistry.Find(x => x.playerReply == id).playerReply);
 
@@ -42,6 +49,7 @@ public static class EmailMatrix
     public static bool EmailIDHasMetRequirements(string id)
     {
         EmailResponseReply matrixEntry = ResponseToEmailRegistry.Find(x => x.npcEmail == id);
+
         if (!matrixEntry.HasRequirements()) return true;
 
         foreach (string requirementID in matrixEntry.requirements)

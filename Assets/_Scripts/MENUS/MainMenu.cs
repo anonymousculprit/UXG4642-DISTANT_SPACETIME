@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         ResetGame();
-        SceneLoader.instance.TransitionToGameScene();
+        SceneLoader.instance.TransitionToContractScene();
         SceneLoader.instance.FadeToBlack();
     }
 
