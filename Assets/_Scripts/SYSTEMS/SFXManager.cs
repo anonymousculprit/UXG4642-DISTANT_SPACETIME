@@ -39,6 +39,7 @@ public class SFXManager : MonoBehaviour
     private void Update() { if (Input.GetMouseButtonDown(0)) Play("mouseclick"); }
     public void PlayTypingNoise() => Play("keyboardtype", 1 + UnityEngine.Random.Range(-rangeValueForTypingNoises, rangeValueForTypingNoises));
     public void PlayEndDaySFX() => StartCoroutine(WaitingForSFXComplete("logoff_endday"));
+    public void PlayStartDaySFX() => StartCoroutine(WaitingForSFXComplete("logon_newday"));
 
     IEnumerator WaitingForSFXComplete(string clipName)
     {

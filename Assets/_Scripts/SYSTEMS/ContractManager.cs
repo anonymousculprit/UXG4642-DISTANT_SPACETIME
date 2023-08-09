@@ -17,12 +17,17 @@ public class ContractManager : MonoBehaviour
         SceneLoader.instance.Loaded += LoadContract;
         SignatureInput.instance.ShowSubmitButton += DisplaySubmit;
         contractAnimator.speed = 0;
-        SceneLoader.instance.FadeFromBlack();
+        Invoke("DisplayContract", 1.5f);
     }
+
+    public void DisplayContract() => SceneLoader.instance.FadeFromBlack(0.5f);
 
     public void LoadContract() => contractAnimator.speed = 1;
     public void DisplaySignature() => contractAnimator.SetTrigger("DisplaySignature");
     public void DisplaySubmit() => contractAnimator.SetTrigger("DisplaySubmit");
 
+    public void PlaySFX() => SFXManager.instance.PlayEndDaySFX();
+    public void CursorLock() { Cursor.lockState = CursorLockMode.Locked; Cursor.visible = false; }
     public void ANIM_SelectSignatureInput() => SignatureInput.instance.SelectInputField();
+    public void ANIM_PlayShowSubmitButtonSFX() => SFXManager.instance.Play("email_send");
 }

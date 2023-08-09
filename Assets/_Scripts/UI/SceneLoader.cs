@@ -29,7 +29,10 @@ public class SceneLoader : MonoBehaviour
     public void TransitionToGameScene() => SetSceneToTransitionTo(2);
     public void SetSceneToTransitionTo(int i) => sceneToTransition = i;
     public void FadeFromBlack() { transition.SetTrigger("FadeFromBlack"); transition.speed = 1; }
+    public void FadeFromBlack(float speed) { transition.SetTrigger("FadeFromBlack"); transition.speed = speed; }
     public void FadeToBlack() { transition.SetTrigger("FadeToBlack"); transition.speed = 1; }
+    public void FadeToBlack(float speed) { transition.SetTrigger("FadeToBlack"); transition.speed = speed; }
+
 
     public void ANIM_Loaded() { Loaded?.Invoke(); }
     public void ANIM_ResetTriggers()

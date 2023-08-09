@@ -15,6 +15,7 @@ public class MainMenu : MonoBehaviour
         ResetGame();
         SceneLoader.instance.TransitionToContractScene();
         SceneLoader.instance.FadeToBlack();
+        SFXManager.instance.PlayStartDaySFX();
     }
 
     public void QuitGame() => Application.Quit();

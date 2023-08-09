@@ -8,6 +8,7 @@ public class ContractDisplay : MonoBehaviour
     public TextMeshProUGUI refText, liveText;
     public bool DEBUG_SkipText = false;
     public float defaultTypingSpeed = 0.05f;
+    //public float defaultSFXSpeed = 0.1f;
     public float shortPause = 2f;
     public float longPause = 3f;
     string text;
@@ -40,10 +41,12 @@ public class ContractDisplay : MonoBehaviour
         for (int i = 0; i < text.Length; i++)
         {
             liveText.text += text[i];
+            if (i % 5 == 0 && text[i] != '\n') SFXManager.instance.PlayTypingNoise();
             yield return new WaitForSeconds(DeterminePauseTimer(text[i]));
         }
         alert.DisplaySignature();
     }
+
 
     float DeterminePauseTimer(char c)
     {
