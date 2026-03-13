@@ -16,7 +16,13 @@ Made by <ins>Constance Lim Tze Han</ins>, <ins>Venus Foo Hui Shi</ins>, <ins>See
 
 ## FEATURES
 
-The repository features the use of DOTween, NoesisGUI and HotReload as plugins. In addition, the game was built with two parsers: CSV and TXT, to stream the email data required for the game's content. While the TXT parser was used to format emails, the CSV parser was used to assign the distribution of emails received on certain days in the game's timeline. These files may be viewed for reference under [StreamingAssets/Data]. Relevant scripts pertaining to data parsing may be found under [_Scripts/IO]. 
+The repository features the use of DOTween, NoesisGUI and HotReload as plugins. 
+
+In addition, the game was built with two parsers: CSV and TXT, to stream the email data required for the game's content. While the TXT parser was used to format emails, the CSV parser was used to assign the distribution of emails received on certain days in the game's timeline. 
+
+These files may be viewed for reference under [<ins>StreamingAssets/Data</ins>], with relevant data pertaining to the CSV input being under the files labelled as matrixes. 
+
+Relevant scripts pertaining to data parsing may be found under [<ins>_Scripts/IO</ins>]. 
 
 ## SCREENSHOTS
 
